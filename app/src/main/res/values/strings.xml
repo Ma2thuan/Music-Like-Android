@@ -2,4 +2,11 @@
     <string name="app_name">GoogleOAuthApp</string>
 
     <string name="CLIENT_ID">4e5e333774674e6d9b9a34f9f68fe051</string>
+
+    <string name="this_is_artist_of_the_song">This Is Artist Of The Song</string>
+    <string name="play_all_songs">Play all</string>
+    <string name="all_songs">All Songs</string>
+    <string name="play_in">play in</string>
+    <string name="this_is_name_of_the_song">This Is Name Of The Song</string>
+
 </resources>

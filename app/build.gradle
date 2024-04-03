@@ -60,6 +60,8 @@ dependencies {
     implementation libs.gson
     implementation libs.volley
     androidTestImplementation libs.runner
+    implementation libs.recyclerview
+    implementation libs.roundedimageview
 
 
     //remote
