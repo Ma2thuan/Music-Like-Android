@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">GoogleOAuthApp</string>
+
+    <string name="CLIENT_ID">4e5e333774674e6d9b9a34f9f68fe051</string>
+</resources>
