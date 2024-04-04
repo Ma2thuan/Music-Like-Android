@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.googleoauthapp.ui.dashboard.DashboardViewModel;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -79,7 +82,7 @@ public class screen_now_playing extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MainActivity3.class);
+                Intent intent = new Intent(view.getContext(), DashboardViewModel.class);
                 view.getContext().startActivity(intent);
                 }
         });
