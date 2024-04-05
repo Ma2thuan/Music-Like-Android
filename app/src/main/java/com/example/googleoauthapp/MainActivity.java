@@ -15,6 +15,9 @@ import com.example.googleoauthapp.databinding.ActivityMainBinding;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
@@ -28,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     private SongService songService;
     private ArrayList<Song> recentlyPlayedTracks;
     private ArrayList<Song> recentlyFoundTracks;
-    private SpotifyAppRemote mSpotifyAppRemote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,9 +101,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateSong() {
         if (recentlyPlayedTracks.size() > 0) {
-            songView.setText(recentlyPlayedTracks.get(0).getName());
+            //songView.setText(recentlyPlayedTracks.get(0).getName());
+            for (int i = 0 ; i < recentlyPlayedTracks.size() ; i++)
+            {
+                songView.append(recentlyPlayedTracks.get(i).getName()+ "\n");
+
+            }
             songID.setText(recentlyPlayedTracks.get(0).getId());
-            song = recentlyPlayedTracks.get(0);
+            //song = recentlyPlayedTracks.get(0);
         }
     }
 }

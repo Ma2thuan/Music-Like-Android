@@ -33,7 +33,7 @@
             android:name=".gglogin"
             android:exported="false" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".HomeView"
             android:exported="false" />
         <activity
             android:name=".screen_now_playing"
@@ -45,7 +45,7 @@
             android:name=".MainActivity3"
             android:exported="false" />
         <activity
-            android:name=".HomeView"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

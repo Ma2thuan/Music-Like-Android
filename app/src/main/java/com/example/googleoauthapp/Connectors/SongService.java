@@ -2,6 +2,8 @@ package com.example.googleoauthapp.Connectors;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -29,9 +31,6 @@ public class SongService {
         queue = Volley.newRequestQueue(context);
     }
 
-    public ArrayList<Song> getSongs() {
-        return songs;
-    }
 
 
     public ArrayList<Song> getRecentlyPlayedTracks(final VolleyCallBack callBack) {
@@ -65,6 +64,7 @@ public class SongService {
             }
         };
         queue.add(jsonObjectRequest);
+
         return songs;
     }
 
@@ -103,9 +103,14 @@ public class SongService {
         return ids;
     }
 
+    public ArrayList<Song> getSongs() {
+        Log.d("SIZE" , String.valueOf(songs.size()));
+        return songs;
+    }
     public void findSong (String a) {
 
     }
+
 
 
 }
