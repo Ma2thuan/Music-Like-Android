@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.example.googleoauthapp.ui.home.HomeViewModel;
+import com.example.googleoauthapp.ui.notifications.NotificationsViewModel;
 import com.google.android.gms.common.api.ApiException;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
