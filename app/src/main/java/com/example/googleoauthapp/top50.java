@@ -33,33 +33,68 @@ public class top50 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         binding=ActivityTop50Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        super.onCreate(savedInstanceState);
-        lvListMusic = findViewById(R.id.lvListMusic);
+//        lvListMusic = findViewById(R.id.lvListMusic);
+//        Log.d("SUCCESS", "GET IT");
+//
+//
+//
         loadData();
-        EdgeToEdge.enable(this);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+
+
+//        EdgeToEdge.enable(this);
+//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+//            return insets;
+//        });
     }
 
     private void loadData() {
+        songs = new ArrayList<Song>();
+        Log.i("test", "ok");
+
         songService.getRecentlyPlayedTracks(() -> {
-            songs = songService.getSongs();
+
+                //songs = songService.getSongs();
+                Log.d("TAG2" , String.valueOf(songs.size()));
         });
 
-        Log.d("SUCCESS", "GET IT");
-        for (int i = 0 ; i < songs.size() ; i++){
-            songArrayList.add(new Song(songs.get(i).getId(),songs.get(i).getName(),R.drawable.imv3));
-        }
 
-        // Khởi tạo Adapter và gán dữ liệu cho ListView
-        musicApdater = new MusicApdater(top50.this, R.layout.item_list_music, songArrayList);
 
-        binding.lvListMusic.setAdapter(musicApdater);
+
+
+
+
+//        try {
+//            songService.getRecentlyPlayedTracks(() -> {
+//                try {
+//                    //songs = songService.getSongs();
+//                    Log.d("TAG2" , String.valueOf(songs.size()));
+//                } catch (Exception e) {
+////                    System.err.println("Error while getting songs: " + e.getMessage());
+//                    Log.d("ERROR SONG" , e.getMessage());
+//                }
+//            });
+//        } catch (Exception e) {
+//            System.err.println("Error while getting recently played tracks: " + e.getMessage());
+//            Log.d("ERROR RECENTLY" , e.getMessage());
+//        }
+
+
+//        Log.d("SUCCESS", "GET IT");
+//        songArrayList = new ArrayList<>();
+//        for (int i = 0 ; i < songs.size() ; i++){
+//            songArrayList.add(new Song(songs.get(i).getId(),songs.get(i).getName(),R.drawable.imv3));
+//        }
+//
+//        // Khởi tạo Adapter và gán dữ liệu cho ListView
+//        musicApdater = new MusicApdater(top50.this, R.layout.item_list_music, songArrayList);
+//
+//        binding.lvListMusic.setAdapter(musicApdater);
 
         // Gọi hàm getRecentlyPlayedTracks để lấy danh sách bài hát mới nhất
 //        songService.getRecentlyPlayedTracks(new VolleyCallBack() {

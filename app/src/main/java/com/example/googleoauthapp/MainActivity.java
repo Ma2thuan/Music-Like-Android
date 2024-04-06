@@ -3,6 +3,7 @@ package com.example.googleoauthapp;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         songService = new SongService(getApplicationContext());
+
         userView = findViewById(R.id.txtUser);
         songView = findViewById(R.id.txtSong);
         songID = findViewById(R.id.songID);
@@ -80,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
     private void getTracks() {
         songService.getRecentlyPlayedTracks(() -> {
             recentlyPlayedTracks = songService.getSongs();
+            Log.d("TAG1" , String.valueOf(recentlyPlayedTracks.size()));
             playTrack();
             updateSong();
         });
