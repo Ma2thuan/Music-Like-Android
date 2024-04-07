@@ -22,20 +22,17 @@ import java.util.ArrayList;
 
 public class top50 extends AppCompatActivity {
     ActivityTop50Binding binding;
-    ListView lvListMusic;
-
-    MusicApdater musicApdater;
-
-    SongService songService;
+    MusicApdater adapter;
+    SongService service;
     ArrayList<Song> songs;
-
-    ArrayList<Song> songArrayList;
+    ArrayList<Song> takeSongs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding=ActivityTop50Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        service = new SongService(getApplicationContext());
 //        lvListMusic = findViewById(R.id.lvListMusic);
 //        Log.d("SUCCESS", "GET IT");
 //
@@ -57,11 +54,29 @@ public class top50 extends AppCompatActivity {
         songs = new ArrayList<Song>();
         Log.i("test", "ok");
 
-        songService.getRecentlyPlayedTracks(() -> {
+        service.getRecentlyPlayedTracks(() -> {
+            takeSongs = service.getSongs();
+            if (takeSongs!= null &&!takeSongs.isEmpty()) {
+                // Add all elements from takeSongs to songs
+                songs.addAll(takeSongs);
 
-                //songs = songService.getSongs();
-                Log.d("TAG2" , String.valueOf(songs.size()));
+                // Add a new song to songs
+                for (int i = 0; i < takeSongs.size(); i++) {
+                    songs.add(i, new Song(takeSongs.get(i).getId(),takeSongs.get(i).getName() , R.drawable.imv1));
+
+                    Log.d("TAG2", songs.get(i).getName() + " " + songs.get(i).getId());
+                }
+
+                // Update the adapter with the new songs list
+                if (adapter!= null) {
+                    adapter.notifyDataSetChanged();
+                } else {
+                    adapter = new MusicApdater(top50.this, R.layout.item_list_music, songs);
+                    binding.lvListMusic.setAdapter(adapter);
+                }
+            }
         });
+    }
 
 
 
@@ -116,4 +131,3 @@ public class top50 extends AppCompatActivity {
 //        });
     }
 
-}

@@ -73,10 +73,8 @@ public class MusicApdater extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(item_layout,null);
             holder.imvPhoto = convertView.findViewById(R.id.imvPhoto);
-            holder.txtplaceName = convertView.findViewById(R.id.txtMusicName);
-//            holder.txtratingValue = convertView.findViewById(R.id.txtratingValue);
-//            holder.txtratingCount = convertView.findViewById(R.id.txtratingCount);
-            holder.txtAddress = convertView.findViewById(R.id.txtAddress);
+            holder.txtMusicName = convertView.findViewById(R.id.txtMusicName);
+            holder.txtId = convertView.findViewById(R.id.txtId);
 
             convertView.setTag(holder);
 
@@ -88,18 +86,14 @@ public class MusicApdater extends BaseAdapter {
         }
         Song song = songs.get(position);
         holder.imvPhoto.setImageResource(song.getPhoto());
-        holder.txtplaceName.setText(song.getId());
-
-//        String r = "" + song.getRatingValue();
-//        holder.txtratingValue.setText(r);
-//        holder.txtratingCount.setText("(" + song.getRatingCount() +")");
-//        holder.txtAddress.setText(song.getAddress());
+        holder.txtMusicName.setText(song.getName());
+        holder.txtId.setText(song.getId());
         return convertView;
     }
 
     public class ViewHolder {
         ImageView imvPhoto;
-        TextView txtplaceName,txtratingValue,txtratingCount,txtAddress;
+        TextView txtMusicName,txtId;
 
         public ImageView getImvPhoto() {
             return imvPhoto;
@@ -109,36 +103,20 @@ public class MusicApdater extends BaseAdapter {
             this.imvPhoto = imvPhoto;
         }
 
-        public TextView getTxtplaceName() {
-            return txtplaceName;
+        public TextView getTxtMusicName() {
+            return txtMusicName;
         }
 
-        public void setTxtplaceName(TextView txtplaceName) {
-            this.txtplaceName = txtplaceName;
+        public void setTxtMusicName(TextView txtMusicName) {
+            this.txtMusicName = txtMusicName;
         }
 
-        public TextView getTxtratingValue() {
-            return txtratingValue;
+        public TextView getTxtId() {
+            return txtId;
         }
 
-        public void setTxtratingValue(TextView txtratingValue) {
-            this.txtratingValue = txtratingValue;
-        }
-
-        public TextView getTxtratingCount() {
-            return txtratingCount;
-        }
-
-        public void setTxtratingCount(TextView txtratingCount) {
-            this.txtratingCount = txtratingCount;
-        }
-
-        public TextView getTxtAddress() {
-            return txtAddress;
-        }
-
-        public void setTxtAddress(TextView txtAddress) {
-            this.txtAddress = txtAddress;
+        public void setTxtId(TextView txtId) {
+            this.txtId = txtId;
         }
     }
 }
