@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.googleoauthapp.MainActivity;
 import com.example.googleoauthapp.TestItemListView;
+import com.example.googleoauthapp.databinding.ActivityTop50Binding;
 import com.example.googleoauthapp.databinding.FragmentHomeBinding;
 import com.example.googleoauthapp.top50;
 
@@ -35,7 +36,8 @@ public class HomeFragment extends Fragment {
 
 //            Toast.makeText(getActivity(), "ok", Toast.LENGTH_SHORT).show();
 //            Intent intent = new Intent(getActivity(),top50.class);
-            Intent intent = new Intent(getActivity(), TestItemListView.class);
+            Intent intent = new Intent(getActivity(), top50.class);
+//            Intent intent = new Intent(getActivity(), TestItemListView.class);
 //            Intent intent = new Intent(HomeFragment.this, top50.class);
             startActivity(intent);
         });
