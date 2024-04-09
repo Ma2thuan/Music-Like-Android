@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".top50">
     <TextView
-        android:id="@+id/nameMusic"
+
         android:text="Music Songs"
         android:textSize="40dp"
         android:textColor="#02A4B9"

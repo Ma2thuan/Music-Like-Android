@@ -52,6 +52,7 @@ public class top50 extends AppCompatActivity {
 
     private void loadData() {
         songs = new ArrayList<Song>();
+//        songs = new ArrayList<>();
         Log.i("test", "ok");
 
         service.getRecentlyPlayedTracks(() -> {
