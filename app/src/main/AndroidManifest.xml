@@ -18,17 +18,17 @@
         android:theme="@style/Theme.GoogleOAuthApp"
         tools:targetApi="31">
         <activity
+            android:name=".Playlists"
+            android:exported="false" />
+        <activity
             android:name=".TestItemListView"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
-            android:exported="false" />
-
-<!--        <activity-->
-<!--            android:name=".HomeView"-->
-<!--            android:exported="false"-->
-<!--            android:label="@string/title_activity_home" />-->
-
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".HomeView" -->
+        <!-- android:exported="false" -->
+        <!-- android:label="@string/title_activity_home" /> -->
         <activity
             android:name=".MainActivity2"
             android:exported="false" />
