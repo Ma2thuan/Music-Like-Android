@@ -43,8 +43,6 @@ public class DashboardFragment extends Fragment {
         final TextView textView = binding.textDashboard;
         dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-
-
 /*
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,9 +91,6 @@ public class DashboardFragment extends Fragment {
         }
         return fileList;
     }
-
-
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();

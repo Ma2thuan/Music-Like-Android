@@ -133,11 +133,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/title"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_pause_black_24dp"
+            app:srcCompat="@drawable/ic_back_black"
             app:tint="#AAA" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+<!--    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -148,8 +148,9 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layoutManager="LinearLayoutManager"
         tools:listitem="@layout/item_art_now_playing"
-        tools:orientation="horizontal" />
-        <androidx.viewpager2.widget.ViewPager2
+        tools:orientation="horizontal" />-->
+
+<!--        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -157,8 +158,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent=".7"/>
-    <View
+            app:layout_constraintHeight_percent=".7"/>-->
+<!--    <View
         android:id="@+id/top_gradient"
         android:layout_width="0dp"
         android:layout_height="@dimen/now_laying_height_in_minimize_mode"
@@ -166,7 +167,7 @@
         android:background="@drawable/now_playing_top_gradient"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />-->
 
     <View
         android:id="@+id/bottom_gradient"
@@ -180,7 +181,7 @@
 
         />
 
-    <TextView
+ <!--   <TextView
         android:id="@+id/big_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -195,11 +196,11 @@
         app:layout_constraintBottom_toTopOf="@id/big_artist"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="This is the name of the song, this is the name of the song" />
+        tools:text="This is the name of the song, this is the name of the song" />-->
 
-    <TextView
+   <!-- <TextView
         android:id="@+id/big_artist"
-        android:layout_width="0dp"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:gravity="center"
@@ -210,9 +211,9 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/time_text_view"
         app:layout_constraintEnd_toEndOf="@id/big_title"
-        app:layout_constraintStart_toStartOf="@id/big_title" />
+        app:layout_constraintStart_toStartOf="@id/big_title" />-->
 
-    <TextView
+<!--    <TextView
         android:id="@+id/time_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -230,7 +231,7 @@
         android:textSize="10sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />-->
 
 
     <ImageView

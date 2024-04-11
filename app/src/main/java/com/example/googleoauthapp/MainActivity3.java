@@ -1,5 +1,6 @@
 package com.example.googleoauthapp;
 
+import android.content.ContentUris;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.MediaStore;
 import android.provider.MediaStore.Audio.Media;
 
 import com.example.googleoauthapp.R;
@@ -19,8 +21,6 @@ public class MainActivity3 extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MusicAdapter musicAdapter;
     private ArrayList<HashMap<String, String>> songList;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class MainActivity3 extends AppCompatActivity {
         String[] projection = {
                 Media._ID,
                 Media.TITLE,
-                Media.DATA
+                Media.DATA,
         };
         // Query the content resolver
         Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
@@ -51,7 +51,6 @@ public class MainActivity3 extends AppCompatActivity {
                 HashMap<String, String> song = new HashMap<>();
                 song.put("songTitle", cursor.getString(cursor.getColumnIndexOrThrow(Media.TITLE)));
                 song.put("songPath", cursor.getString(cursor.getColumnIndexOrThrow(Media.DATA)));
-                // Adding each song to the list
                 fileList.add(song);
             }
             cursor.close();

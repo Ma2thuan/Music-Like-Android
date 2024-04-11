@@ -3,6 +3,8 @@
 
     <string name="CLIENT_ID">4e5e333774674e6d9b9a34f9f68fe051</string>
 
+    <string name="default_web_client_id">YOUR_WEB_CLIENT_ID</string>
+
     <string name="this_is_artist_of_the_song">This Is Artist Of The Song</string>
     <string name="play_all_songs">Play all</string>
     <string name="all_songs">All Songs</string>
@@ -10,8 +12,8 @@
     <string name="this_is_name_of_the_song">This Is Name Of The Song</string>
     <string name="title_activity_home">Home</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_dashboard">Music</string>
+    <string name="title_notifications">Me</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="music">MUSIC</string>
