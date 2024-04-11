@@ -18,25 +18,14 @@
         android:theme="@style/Theme.GoogleOAuthApp"
         tools:targetApi="31">
         <activity
-            android:name=".ui.playlist.TheStroke"
-            android:exported="false" />
-        <activity
-            android:name=".Playlists.MainActivity2s"
-            android:exported="false" />
-        <activity
-            android:name=".Playlists.TaylorSwift"
-            android:exported="false" />
-        <activity
-            android:name=".ui.playlist.NgotBand"
-            android:exported="false" />
-        <activity
-            android:name=".ui.playlist.top50VN"
-            android:exported="false" />
+            android:name=".Playlists"
+            android:exported="true" />
         <activity
             android:name=".TestItemListView"
             android:exported="false" />
         <activity
             android:name=".HomeView"
+
             android:exported="false" /> <!-- <activity -->
         <!-- android:name=".HomeView" -->
         <!-- android:exported="false" -->
@@ -54,11 +43,11 @@
             android:name=".screen_now_playing"
             android:exported="false" />
         <activity
-            android:name=".ui.playlist.top50"
+            android:name=".top50"
             android:exported="false" />
-        <activity
-            android:name=".MainActivity3"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".MainActivity3"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".SplashActivity"
             android:exported="true">

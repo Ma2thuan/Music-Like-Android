@@ -72,4 +72,5 @@
 
     <dimen name="card_on_app_bar_side_padding">8dp</dimen>
     <dimen name="notification_big_image_size">128dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 </resources>
