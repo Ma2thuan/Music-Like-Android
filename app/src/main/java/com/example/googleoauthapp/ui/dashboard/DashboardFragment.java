@@ -8,6 +8,7 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,8 +18,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.googleoauthapp.MainActivity3;
 import com.example.googleoauthapp.MusicAdapter;
+import com.example.googleoauthapp.Playlists;
 import com.example.googleoauthapp.R;
 import com.example.googleoauthapp.databinding.FragmentDashboardBinding;
 
@@ -42,17 +43,6 @@ public class DashboardFragment extends Fragment {
 
         final TextView textView = binding.textDashboard;
         dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-
-/*
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Tạo Intent để khởi động Activity mới
-                Intent intent = new Intent(getActivity(), MainActivity3.class);
-                startActivity(intent);
-            }
-        });
-*/
         return root;
     }
 
@@ -65,6 +55,17 @@ public class DashboardFragment extends Fragment {
         songList = getMusicFiles();
         musicAdapter = new MusicAdapter(songList);
         recyclerView.setAdapter(musicAdapter);
+
+        Button playlistButton = view.findViewById(R.id.button_playlist);
+        playlistButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Tạo Intent để khởi động Activity Playlists
+                Intent intent = new Intent(getActivity(), Playlists.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     public ArrayList<HashMap<String, String>> getMusicFiles() {
@@ -91,6 +92,8 @@ public class DashboardFragment extends Fragment {
         }
         return fileList;
     }
+
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

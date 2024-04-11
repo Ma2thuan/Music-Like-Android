@@ -49,20 +49,30 @@
         android:layout_height="30dp"
         android:text="@string/music"
         android:textAlignment="center"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_playlist"
+        android:layout_width="148dp"
+        android:layout_height="54dp"
+        android:layout_below="@+id/text_dashboard"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:text="Playlist"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_dashboard" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:layout_width="397dp"
-        android:layout_height="682dp"
-        android:layout_below="@+id/text_dashboard"
+        android:layout_width="411dp"
+        android:layout_height="645dp"
+        android:layout_below="@+id/button_playlist"
         android:overScrollMode="never"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_dashboard"
-        app:layout_constraintVertical_bias="0.157"
+        app:layout_constraintTop_toBottomOf="@+id/button_playlist"
         tools:layoutManager="LinearLayoutManager"
         tools:listitem="@layout/item_feature_song"
         tools:orientation="vertical" />
