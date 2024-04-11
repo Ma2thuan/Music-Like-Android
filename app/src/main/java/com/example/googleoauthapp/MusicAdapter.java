@@ -21,14 +21,12 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.TaskCompletionSource;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> {
@@ -169,34 +167,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
     // Phương thức giả định để lấy danh sách các playlist
     private ArrayList<String> getPlaylists() {
         // Lấy danh sách các playlist từ bộ nhớ hoặc cơ sở dữ liệu
-        // Tạo một ArrayList mới để lưu trữ tên của các playlist
-        ArrayList<String> playlists = new ArrayList<>();
-        String userId = GlobalVars.getUserEmail();
-
-        // Tạo một Task để xử lý bất đồng bộ
-        TaskCompletionSource<ArrayList<String>> taskCompletionSource = new TaskCompletionSource<>();
-
-        // Truy vấn Firestore để lấy tất cả các playlist của người dùng với email cụ thể
-        db.collection("users").whereEqualTo("email", useremail).get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            // Giả sử mỗi document chứa một trường 'playlists' là một ArrayList
-                            List<String> userPlaylists = (List<String>) document.get("playlists");
-                            if (userPlaylists != null) {
-                                playlists.addAll(userPlaylists);
-                            }
-                        }
-                        // Đặt giá trị cho Task
-                        taskCompletionSource.setResult(playlists);
-                    } else {
-                        // Xử lý lỗi
-                        taskCompletionSource.setException(task.getException());
-                    }
-                });
-
-        // Trả về Task
-        return taskCompletionSource.getTask().getResult();
+        return new ArrayList<>();
     }
 
     // Phương thức giả định để tạo playlist mới và thêm bài hát
@@ -282,6 +253,39 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
         }
     }
 
+   /* private void saveNewPlaylist(String plName, HashMap<String, String> songs) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String userId = GlobalVars.getUserEmail();
+        if (userId != null) {
+            db.collection("users").document(userId).collection("playlists").document(plName).get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (!document.exists()) {
+                                // Playlist không tồn tại, tạo playlist mới và thêm bài hát
+                                Map<String, Object> playlist = new HashMap<>();
+                                playlist.put("plName", plName);
+                                db.collection("users").document(userId).collection("playlists").document(plName).set(playlist)
+                                        .addOnSuccessListener(aVoid -> {
+                                            Map<String, Object> songData = new HashMap<>();
+                                            songData.put("songID", songs.get("songID"));
+                                            songData.put("songPath", songs.get("songPath"));
+                                            songData.put("songTitle", songs.get("songTitle"));
+                                            String songTitle = (String) songData.get("songTitle");
+                                            db.collection("users").document(userId).collection("playlists").document(plName).collection("songs")
+                                                    .document(songTitle)
+                                                    .set(songData);
+                                        });
+                            } else {
+                                // Playlist đã tồn tại, xử lý thêm bài hát vào playlist hiện có
+                            }
+                        } else {
+                            // Xử lý lỗi
+                        }
+                    });
+        }
+    }
+*/
 
 }
 
