@@ -80,10 +80,10 @@ public class MainActivity extends AppCompatActivity {
 
     // Run and Update song Data
     private void getTracks() {
-        songService.getRecentlyPlayedTracks(() -> {
+        songService.getTop50(() -> {
             recentlyPlayedTracks = songService.getSongs();
             Log.d("TAG1" , String.valueOf(recentlyPlayedTracks.size()));
-            playTrack();
+            //playTrack();
             updateSong();
         });
     }
