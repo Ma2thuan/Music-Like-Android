@@ -1,11 +1,11 @@
 package com.example.googleoauthapp.Adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,21 +13,18 @@ import com.example.googleoauthapp.Class.Song;
 import com.example.googleoauthapp.Class.SongTest;
 import com.example.googleoauthapp.R;
 
-
 import java.util.ArrayList;
 
-public class MusicApdater extends BaseAdapter {
+public class MusicAdapterTesy {
     Activity activity;
     int item_layout;
-    ArrayList<Song> songs;
+    ArrayList<SongTest> songs;
 
-
-    public MusicApdater(Activity activity, int item_layout, ArrayList<Song> songs) {
+    public MusicAdapterTesy(Activity activity, int item_layout, ArrayList<SongTest> songs) {
         this.activity = activity;
         this.item_layout = item_layout;
         this.songs = songs;
     }
-
 
     public Activity getActivity() {
         return activity;
@@ -45,37 +42,34 @@ public class MusicApdater extends BaseAdapter {
         this.item_layout = item_layout;
     }
 
-    public ArrayList<Song> getSongs() {
+    public ArrayList<SongTest> getSongs() {
         return songs;
     }
 
-    public void setSongs(ArrayList<Song> songs) {
+    public void setSongs(ArrayList<SongTest> songs) {
         this.songs = songs;
     }
-
-    @Override
     public int getCount() {
         return songs.size();
     }
 
-    @Override
     public Object getItem(int position) {
         return songs.get(position);
     }
 
-    @Override
     public long getItemId(int position) {
         return 0;
     }
 
+
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder holder;
+        MusicAdapterTesy.ViewHolder holder;
         if(convertView ==null){
             holder = new ViewHolder();
             LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(item_layout,null);
-            holder.imvPhoto = convertView.findViewById(R.id.imvPhoto);
+            holder.imvPhoto = String.valueOf(convertView.findViewById(R.id.imvPhoto));
             holder.txtMusicName = convertView.findViewById(R.id.txtMusicName);
             holder.txtId = convertView.findViewById(R.id.txtId);
 
@@ -83,26 +77,26 @@ public class MusicApdater extends BaseAdapter {
 
 
         }else{
-            holder = (ViewHolder) convertView.getTag();
+            holder = (MusicAdapterTesy.ViewHolder) convertView.getTag();
             //Binding data
 
         }
-        Song song = songs.get(position);
-        holder.imvPhoto.setImageResource(song.getPhoto());
+        SongTest song = songs.get(position);
+        //holder.imvPhoto.(song.getPhoto());
         holder.txtMusicName.setText(song.getName());
         holder.txtId.setText(song.getId());
         return convertView;
     }
 
     public class ViewHolder {
-        ImageView imvPhoto;
+        String imvPhoto;
         TextView txtMusicName,txtId;
 
-        public ImageView getImvPhoto() {
+        public String getImvPhoto() {
             return imvPhoto;
         }
 
-        public void setImvPhoto(ImageView imvPhoto) {
+        public void setImvPhoto(String imvPhoto) {
             this.imvPhoto = imvPhoto;
         }
 

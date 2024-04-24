@@ -36,8 +36,6 @@ public class SplashActivity extends AppCompatActivity {
 
     private SpotifyAppRemote mSpotifyAppRemote;
 
-    private SongService songService;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,9 +125,6 @@ public class SplashActivity extends AppCompatActivity {
         });
     }
 
-
-
-
     private void startMainActivity() {
         Intent intent = new Intent(SplashActivity.this , HomeView.class);
         startActivity(intent);
@@ -156,7 +151,7 @@ public class SplashActivity extends AppCompatActivity {
 
         String message = sharedPreferences.getString("TRACK_ID_KEY", "");
 
-        mSpotifyAppRemote.getPlayerApi().play("spotify:track:"+message);
+        //mSpotifyAppRemote.getPlayerApi().play("spotify:track:"+message);
 
         Log.d("SongPlay","spotify:track:"+message);
     }

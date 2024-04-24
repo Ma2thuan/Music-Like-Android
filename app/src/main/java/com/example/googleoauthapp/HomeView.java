@@ -23,9 +23,9 @@ public class HomeView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_home);
         BottomNavigationView bottomNavigationView = findViewById(R.id.nav_view);

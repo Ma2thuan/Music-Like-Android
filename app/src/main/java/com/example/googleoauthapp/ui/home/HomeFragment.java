@@ -6,24 +6,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.googleoauthapp.MainActivity;
-import com.example.googleoauthapp.TestItemListView;
-import com.example.googleoauthapp.databinding.ActivityTop50Binding;
+import com.example.googleoauthapp.ui.playlist.NgotBand;
+import com.example.googleoauthapp.ui.playlist.TheStroke;
+import com.example.googleoauthapp.ui.playlist.top50;
+import com.example.googleoauthapp.ui.playlist.top50VN;
 import com.example.googleoauthapp.databinding.FragmentHomeBinding;
-import com.example.googleoauthapp.top50;
 
 //import com.example.googleoauthapp.databinding.FragmentHomeBinding;
-//import com.example.googleoauthapp.top50;
+//import com.example.googleoauthapp.ui.playlist.top50;
 
 public class HomeFragment extends Fragment {
 
-    private FragmentHomeBinding binding;
+     FragmentHomeBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -32,15 +31,38 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        binding.imvTop50.setOnClickListener(v -> {
 
-//            Toast.makeText(getActivity(), "ok", Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(getActivity(),top50.class);
+        binding.imvTop50.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), top50.class);
-//            Intent intent = new Intent(getActivity(), TestItemListView.class);
-//            Intent intent = new Intent(HomeFragment.this, top50.class);
             startActivity(intent);
         });
+
+        binding.imvTop50VN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), top50VN.class);
+                startActivity(intent);
+            }
+        });
+
+
+        binding.NgotBand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), NgotBand.class);
+                startActivity(intent);
+            }
+        });
+
+
+        binding.TheStroke.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), TheStroke.class);
+                startActivity(intent);
+            }
+        });
+
 
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
