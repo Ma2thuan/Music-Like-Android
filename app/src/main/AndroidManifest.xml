@@ -49,7 +49,18 @@
             android:exported="false" />
         <activity
             android:name=".top50"
-            android:exported="false" /> <!-- <activity -->
+            android:exported="true" />
+        <activity
+            android:name=".NgotBand"
+            android:exported="true" />
+        <activity
+            android:name=".top50VN"
+            android:exported="true" />
+        <activity
+            android:name=".TheStroke"
+            android:exported="true" />
+
+        <!-- <activity -->
         <!-- android:name=".MainActivity3" -->
         <!-- android:exported="false" /> -->
         <activity

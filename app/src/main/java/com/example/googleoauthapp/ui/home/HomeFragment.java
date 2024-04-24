@@ -11,10 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.googleoauthapp.ui.playlist.NgotBand;
-import com.example.googleoauthapp.ui.playlist.TheStroke;
-import com.example.googleoauthapp.ui.playlist.top50;
-import com.example.googleoauthapp.ui.playlist.top50VN;
+import com.example.googleoauthapp.NgotBand;
+import com.example.googleoauthapp.TheStroke;
+import com.example.googleoauthapp.top50;
+import com.example.googleoauthapp.top50VN;
+
 import com.example.googleoauthapp.databinding.FragmentHomeBinding;
 
 //import com.example.googleoauthapp.databinding.FragmentHomeBinding;

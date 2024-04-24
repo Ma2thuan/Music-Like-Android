@@ -86,6 +86,7 @@
                 android:src="@drawable/imv4" />
 
             <ImageView
+                android:id="@+id/imvTop50VN"
                 android:layout_width="180dp"
                 android:layout_height="200dp"
                 android:layout_marginLeft="20dp"
@@ -115,12 +116,13 @@
             android:paddingTop="10dp"
             android:orientation="horizontal">
             <ImageView
-
+                android:id="@+id/NgotBand"
                 android:layout_width="180dp"
                 android:layout_height="200dp"
                 android:src="@drawable/imv1" />
 
             <ImageView
+                android:id="@+id/TheStroke"
                 android:layout_width="180dp"
                 android:layout_height="200dp"
                 android:layout_marginLeft="20dp"

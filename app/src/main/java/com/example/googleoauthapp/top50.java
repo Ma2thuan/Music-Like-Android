@@ -1,28 +1,28 @@
-package com.example.googleoauthapp.ui.playlist;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.googleoauthapp;
 
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.googleoauthapp.Adapter.MusicApdater;
 import com.example.googleoauthapp.Class.Song;
 import com.example.googleoauthapp.Connectors.SongService;
-import com.example.googleoauthapp.R;
-import com.example.googleoauthapp.databinding.ActivityNgotBandBinding;
+import com.example.googleoauthapp.databinding.ActivityTop50Binding;
 
 import java.util.ArrayList;
 
-public class NgotBand extends AppCompatActivity {
-    ActivityNgotBandBinding binding;
+public class top50 extends AppCompatActivity {
+    ActivityTop50Binding binding;
     MusicApdater adapter;
     SongService service;
     ArrayList<Song> songs;
     ArrayList<Song> takeSongs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityNgotBandBinding.inflate(getLayoutInflater());
+        binding=ActivityTop50Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         service = new SongService(getApplicationContext());
 
@@ -34,12 +34,12 @@ public class NgotBand extends AppCompatActivity {
         Log.i("test", "ok");
         songs.clear();
 
-        service.getTopNgotBand(() -> {
+        service.getTop50(() -> {
             takeSongs = service.getSongs();
             if (takeSongs!= null &&!takeSongs.isEmpty()) {
                 // Add a new song to songs
                 for (int i = 0; i < takeSongs.size(); i++) {
-                    songs.add(i, new Song(takeSongs.get(i).getId(),takeSongs.get(i).getName() , R.drawable.ngot_band));
+                    songs.add(i, new Song(takeSongs.get(i).getId(),takeSongs.get(i).getName() , R.drawable.region_global_default));
 
                     Log.d("TAG2", songs.get(i).getName() + " " + songs.get(i).getId());
                 }
@@ -48,13 +48,11 @@ public class NgotBand extends AppCompatActivity {
                 if (adapter!= null) {
                     adapter.notifyDataSetChanged();
                 } else {
-                    adapter = new MusicApdater(NgotBand.this, R.layout.item_list_music, songs);
+                    adapter = new MusicApdater(top50.this, R.layout.item_list_music, songs);
                     binding.lvListMusic.setAdapter(adapter);
                 }
             }
         });
     }
-
-
-
 }
+
