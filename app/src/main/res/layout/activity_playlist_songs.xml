@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/rootCardView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardPreventCornerOverlap="true">
+
+        <androidx.constraintlayout.motion.widget.MotionLayout
+            android:id="@+id/constraint_root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutDescription="@xml/playing_queue_animation">
+
+            <View
+                android:id="@+id/minimize_bar"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/bottom_navigation_height"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/down"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="2dp"
+                app:layout_constraintBottom_toBottomOf="@id/playlist_title"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/playlist_title"
+                app:layout_constraintTop_toTopOf="@id/playlist_title"
+                app:srcCompat="@drawable/ic_keyboard_arrow_down_black_24dp"
+                app:tint="@color/flatBlue" />
+
+            <FrameLayout
+                android:id="@+id/spacingInsetTopParent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/minimize_bar">
+            </FrameLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="403dp"
+                android:layout_height="627dp"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/minimize_bar"
+                tools:layoutManager="LinearLayoutManager"
+                tools:listitem="@layout/item_feature_song" />
+
+            <TextView
+                android:id="@+id/playlist_title"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_marginTop="3dp"
+                android:ellipsize="marquee"
+                android:gravity="center_vertical"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:maxWidth="150dp"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="@string/all_songs"
+                android:textColor="@color/flatBlue"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/minimize_bar"
+                app:layout_constraintEnd_toStartOf="@id/down"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/minimize_bar"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent="0.5" />
+
+            <ImageView
+                android:id="@+id/shuffle_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ripple_oval"
+                android:padding="11dp"
+                android:src="@drawable/smooth_shuffle"
+                app:layout_constraintBottom_toBottomOf="@id/minimize_bar"
+                app:layout_constraintEnd_toStartOf="@id/repeat_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/minimize_bar"
+                app:tint="@color/FlatWhite" />
+
+            <ImageView
+                android:id="@+id/repeat_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ripple_oval"
+                android:padding="11dp"
+                android:src="@drawable/repeat"
+                app:layout_constraintBottom_toBottomOf="@id/minimize_bar"
+                app:layout_constraintEnd_toStartOf="@id/playlist_title"
+                app:layout_constraintStart_toEndOf="@id/shuffle_button"
+                app:layout_constraintTop_toTopOf="@id/minimize_bar"
+                app:tint="@color/FlatWhite" />
+        </androidx.constraintlayout.motion.widget.MotionLayout>
+
+        <View
+            android:id="@+id/dim_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:background="@android:color/black" />
+    </androidx.cardview.widget.CardView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="bottom"
+        android:background="@color/background_panel_color" />
+</FrameLayout>

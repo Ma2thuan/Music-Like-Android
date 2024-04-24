@@ -65,7 +65,6 @@ public class DashboardFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
     }
 
     public ArrayList<HashMap<String, String>> getMusicFiles() {

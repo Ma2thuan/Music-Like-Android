@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/popup_song_remove_playlist"
+        android:title="Remove from playlist" />
+
+    <item
+        android:id="@+id/popup_song_play"
+        android:title="Play" />
+
+    <item
+        android:id="@+id/popup_song_play_next"
+        android:title="Play_next" />
+
+</menu>

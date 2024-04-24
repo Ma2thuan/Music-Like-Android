@@ -23,15 +23,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> {
     private ArrayList<HashMap<String, String>> songList;
+    ArrayList<String> playlists = getPlaylists();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private List<String> playlistNames;
+    private Context context;
+
 
     public MusicAdapter(ArrayList<HashMap<String, String>> songList) {
         this.songList = songList;
@@ -72,21 +78,6 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
     public int getItemCount() {
         return songList.size();
     }
-    private void playMusic(String path) {
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        try {
-            mediaPlayer.setDataSource(path);
-            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    mp.start();
-                }
-            });
-            mediaPlayer.prepareAsync(); // Chuẩn bị MediaPlayer một cách bất đồng bộ
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView menuButton;
@@ -114,61 +105,96 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                 }
             });
         }
-        private void playMusic(String path) {
-            MediaPlayer mediaPlayer = new MediaPlayer();
-            try {
-                mediaPlayer.setDataSource(path);
-                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                    @Override
-                    public void onPrepared(MediaPlayer mp) {
-                        mp.start();
-                    }
-                });
-                mediaPlayer.prepareAsync();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
     }
 
     private void showPlaylistSelection(Context context, HashMap<String, String> song) {
-        // Giả sử bạn có một phương thức để lấy danh sách các playlist
-        ArrayList<String> playlists = getPlaylists();
-        // Tạo và hiển thị AlertDialog với danh sách playlist
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Chọn Playlist");
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, playlists);
-        builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                // Thêm bài hát vào playlist được chọn
-                addSongToPlaylist(playlists.get(which), song);
-            }
-        });
-        builder.setPositiveButton("Tạo Playlist Mới", new DialogInterface.OnClickListener() {
+        fetchPlaylists(context, new OnPlaylistsFetchedListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Yêu cầu người dùng nhập tên playlist mới và thêm bài hát vào
-                createNewPlaylistAndAddSong(context, song);
+            public void onPlaylistsFetched(ArrayList<String> playlists) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Chọn Playlist");
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, playlists);
+                builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        addSongToPlaylist(playlists.get(which), song);
+                    }
+                });
+                builder.setPositiveButton("Tạo Playlist Mới", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        createNewPlaylistAndAddSong(context, song);
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 
-
-
-
-    // Phương thức giả định để thêm bài hát vào playlist
-    private void addSongToPlaylist(String playlistName, HashMap<String, String> song) {
-        // Cập nhật playlist với bài hát được chọn
-    }
 
     // Phương thức giả định để lấy danh sách các playlist
     private ArrayList<String> getPlaylists() {
         // Lấy danh sách các playlist từ bộ nhớ hoặc cơ sở dữ liệu
         return new ArrayList<>();
     }
+
+    private void fetchPlaylists(Context context, OnPlaylistsFetchedListener listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String userEmail = GlobalVars.getUserEmail();
+        if (userEmail != null) {
+            db.collection("users").document(userEmail).collection("playlists")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            ArrayList<String> playlistNames = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                playlistNames.add(document.getId());
+                            }
+                            listener.onPlaylistsFetched(playlistNames);
+                        } else {
+                            Toast.makeText(context, "Lỗi khi lấy playlists.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } else {
+            Toast.makeText(context, "Email người dùng không tồn tại.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Interface callback khi playlists được lấy
+    interface OnPlaylistsFetchedListener {
+        void onPlaylistsFetched(ArrayList<String> playlists);
+    }
+    // Phương thức giả định để thêm bài hát vào playlist
+    private void addSongToPlaylist(String playlistName, HashMap<String, String> song) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String userEmail = GlobalVars.getUserEmail();
+       /* Context context = null;*/
+        if (userEmail != null) {
+            // Tạo một Map mới cho bài hát
+            Map<String, Object> songToAdd = new HashMap<>();
+            songToAdd.put("songID", song.get("songID"));
+            songToAdd.put("songPath", song.get("songPath"));
+            songToAdd.put("songTitle", song.get("songTitle"));
+            
+            String songTitle = (String) songToAdd.get("songTitle");
+
+            // Thêm bài hát vào playlist đã chọn
+           
+            db.collection("users").document(userEmail).collection("playlists")
+                    .document(playlistName).collection("songs")
+                    .document(songTitle)
+                    .set(songToAdd)
+                    .addOnSuccessListener(documentReference -> {
+                        Toast.makeText(context, "Bài hát đã được thêm vào playlist.", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(context, "Lỗi khi thêm bài hát vào playlist.", Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+           /* Toast.makeText(context, "Email người dùng không tồn tại.", Toast.LENGTH_SHORT).show();*/
+        }
+    }
+
 
     // Phương thức giả định để tạo playlist mới và thêm bài hát
     private void createNewPlaylistAndAddSong(Context context, HashMap<String, String> song) {
@@ -212,7 +238,6 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String userId = GlobalVars.getUserEmail();
         if (useremail != null) {
-
             // Kiểm tra xem đã có playlist nào với tên này chưa
             db.collection("users").document(useremail).collection("playlists")
                     .whereEqualTo("plName", plName)
@@ -252,40 +277,6 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
             // Xử lý trường hợp không lấy được userId
         }
     }
-
-   /* private void saveNewPlaylist(String plName, HashMap<String, String> songs) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String userId = GlobalVars.getUserEmail();
-        if (userId != null) {
-            db.collection("users").document(userId).collection("playlists").document(plName).get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (!document.exists()) {
-                                // Playlist không tồn tại, tạo playlist mới và thêm bài hát
-                                Map<String, Object> playlist = new HashMap<>();
-                                playlist.put("plName", plName);
-                                db.collection("users").document(userId).collection("playlists").document(plName).set(playlist)
-                                        .addOnSuccessListener(aVoid -> {
-                                            Map<String, Object> songData = new HashMap<>();
-                                            songData.put("songID", songs.get("songID"));
-                                            songData.put("songPath", songs.get("songPath"));
-                                            songData.put("songTitle", songs.get("songTitle"));
-                                            String songTitle = (String) songData.get("songTitle");
-                                            db.collection("users").document(userId).collection("playlists").document(plName).collection("songs")
-                                                    .document(songTitle)
-                                                    .set(songData);
-                                        });
-                            } else {
-                                // Playlist đã tồn tại, xử lý thêm bài hát vào playlist hiện có
-                            }
-                        } else {
-                            // Xử lý lỗi
-                        }
-                    });
-        }
-    }
-*/
 
 }
 

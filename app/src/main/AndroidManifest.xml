@@ -18,15 +18,20 @@
         android:theme="@style/Theme.GoogleOAuthApp"
         tools:targetApi="31">
         <activity
-            android:name=".Playlists"
+            android:name=".screen_now_playing_ex"
+            android:exported="false" />
+        <activity
+            android:name=".Playlist_Songs"
+            android:exported="false" />
+        <activity
+            android:name=".HomeView"
             android:exported="true" />
         <activity
             android:name=".TestItemListView"
             android:exported="false" />
         <activity
-            android:name=".HomeView"
-
-            android:exported="false" /> <!-- <activity -->
+            android:name=".Playlists"
+            android:exported="true" /> <!-- <activity -->
         <!-- android:name=".HomeView" -->
         <!-- android:exported="false" -->
         <!-- android:label="@string/title_activity_home" /> -->
@@ -44,10 +49,9 @@
             android:exported="false" />
         <activity
             android:name=".top50"
-            android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".MainActivity3"-->
-<!--            android:exported="false" />-->
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".MainActivity3" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".SplashActivity"
             android:exported="true">

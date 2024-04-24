@@ -67,7 +67,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="411dp"
-        android:layout_height="645dp"
+        android:layout_height="587dp"
         android:layout_below="@+id/button_playlist"
         android:overScrollMode="never"
         app:layout_constraintEnd_toEndOf="parent"

@@ -8,15 +8,6 @@
     tools:background="@color/library_back_color"
     tools:context=".Playlists">
 
-<!--    <LinearLayout
-        android:id="@+id/springBackLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">-->
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="258dp"
@@ -57,7 +48,4 @@
         tools:layoutManager="GridLayoutManager"
         tools:listitem="@layout/item_playlist_child"
         tools:spanCount="2" />
-    <!--    </LinearLayout>-->
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

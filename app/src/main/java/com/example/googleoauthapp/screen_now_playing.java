@@ -1,6 +1,5 @@
 package com.example.googleoauthapp;
 
-import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -12,32 +11,21 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import com.example.googleoauthapp.ui.dashboard.DashboardViewModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.Firebase;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class screen_now_playing extends AppCompatActivity {
     MediaPlayer mediaPlayer = new MediaPlayer();
     private ArrayList<HashMap<String, String>> songList;
     private int currentSongIndex = 0;
     boolean isPlaying = false; // Biến theo dõi trạng thái phát nhạc
-
     private SeekBar songProgressBar;
     private TextView currentDurationView;
     private TextView totalDurationView;
@@ -103,7 +91,6 @@ public class screen_now_playing extends AppCompatActivity {
                 }
             }
         });
-
         ImageView backButton = findViewById(R.id.button_right);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,7 +157,7 @@ public class screen_now_playing extends AppCompatActivity {
                     totalDurationView.setText(milliSecondsToTimer(totalDuration));
                     // Cập nhật thanh tiến độ
                     songProgressBar.setMax(totalDuration);
-
+                    Log.d("Playlist_Songs"," songPath: " + path);
                 }
             });
 
