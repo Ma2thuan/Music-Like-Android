@@ -2,6 +2,8 @@ package com.example.googleoauthapp;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +11,7 @@ import com.example.googleoauthapp.Adapter.MusicApdater;
 import com.example.googleoauthapp.Class.Song;
 import com.example.googleoauthapp.Connectors.SongService;
 import com.example.googleoauthapp.databinding.ActivityTop50Binding;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
 
 import java.util.ArrayList;
 
@@ -18,6 +21,7 @@ public class top50 extends AppCompatActivity {
     SongService service;
     ArrayList<Song> songs;
     ArrayList<Song> takeSongs;
+    private SpotifyAppRemote mSpotifyAppRemote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,13 @@ public class top50 extends AppCompatActivity {
         service = new SongService(getApplicationContext());
 
         loadData();
+
+        binding.lvListMusic.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mSpotifyAppRemote.getPlayerApi().play("spotify:track" + songs.get(position).getId());
+            }
+        });
     }
 
     private void loadData() {
