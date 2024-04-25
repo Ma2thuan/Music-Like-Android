@@ -151,7 +151,7 @@ public class SplashActivity extends AppCompatActivity {
 
         String message = sharedPreferences.getString("TRACK_ID_KEY", "");
 
-        //mSpotifyAppRemote.getPlayerApi().play("spotify:track:"+message);
+        mSpotifyAppRemote.getPlayerApi().play("spotify:track:"+message);
 
         Log.d("SongPlay","spotify:track:"+message);
     }

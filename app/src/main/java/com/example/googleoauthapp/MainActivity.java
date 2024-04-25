@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         addBtn.setOnClickListener(addListener);
 
         findBtn = findViewById(R.id.btnFind);
-        findBtn.setOnClickListener(addFinder);
+//        findBtn.setOnClickListener(addFinder);
 
 
 
@@ -70,13 +70,13 @@ public class MainActivity extends AppCompatActivity {
         updateSong();
     };
 
-    private View.OnClickListener addFinder = v -> {
-        songService.findSong(binding.nameFindSong.toString());
-        if (recentlyFoundTracks.size() > 0) {
-            recentlyFoundTracks.remove(0);
-        }
-        updateSong();
-    };
+//    private View.OnClickListener addFinder = v -> {
+//        songService.findSong(binding.nameFindSong.toString());
+//        if (recentlyFoundTracks.size() > 0) {
+//            recentlyFoundTracks.remove(0);
+//        }
+//        updateSong();
+//    };
 
     // Run and Update song Data
     private void getTracks() {
