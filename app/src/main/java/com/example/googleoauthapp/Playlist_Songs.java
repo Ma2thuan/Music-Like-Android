@@ -21,6 +21,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Playlist_Songs extends AppCompatActivity {
@@ -28,7 +29,10 @@ public class Playlist_Songs extends AppCompatActivity {
     private SongsAdapter adapter;
     private ArrayList<Song> songList;
     private String playlistName;
-/*    @Override
+    private boolean isShuffleEnabled = false;
+    private boolean isRepeatEnabled = false;
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist_songs);
@@ -36,45 +40,46 @@ public class Playlist_Songs extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Khởi tạo Adapter với danh sách rỗng và SongItemClickListener
+        // Lấy tên playlist từ Intent
+        String playlistName = getIntent().getStringExtra("PLAYLIST_NAME");
+
+        // Khởi tạo Adapter với danh sách rỗng, SongItemClickListener và tên playlist
         adapter = new SongsAdapter(new ArrayList<>(), (songList, position) -> {
             Intent intent = new Intent(Playlist_Songs.this, screen_now_playing_ex.class);
             intent.putExtra("SONG_LIST", songList); // Truyền songList đã được cập nhật
             intent.putExtra("SONG_INDEX", position);
+
+            //
+            intent.putExtra("SHUFFLE_ENABLED", isShuffleEnabled);
+            intent.putExtra("REPEAT_ENABLED", isRepeatEnabled);
             startActivity(intent);
-        });
+        }, playlistName); // Thêm tham số playlistName vào đây
+
         recyclerView.setAdapter(adapter);
-        String playlistName = getIntent().getStringExtra("PLAYLIST_NAME");
+        // Nếu tên playlist không null, load bài hát từ playlist
         if (playlistName != null) {
             loadSongsFromPlaylist(playlistName);
         }
-    }*/
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_playlist_songs);
-    // Khởi tạo RecyclerView và Adapter
-    recyclerView = findViewById(R.id.recycler_view);
-    recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-    // Lấy tên playlist từ Intent
-    String playlistName = getIntent().getStringExtra("PLAYLIST_NAME");
+        findViewById(R.id.shuffle_button).setOnClickListener(v -> {
+            isShuffleEnabled = !isShuffleEnabled; // Đảo trạng thái shuffle
+            if (isShuffleEnabled) {
+                // Bật chức năng shuffle
+                Collections.shuffle(songList); // Trộn danh sách bài hát
+                adapter.notifyDataSetChanged(); // Cập nhật adapter
+            } else {
+                // Tắt chức năng shuffle và tải lại danh sách bài hát gốc
+                loadSongsFromPlaylist(playlistName);
+            }
+        });
 
-    // Khởi tạo Adapter với danh sách rỗng, SongItemClickListener và tên playlist
-    adapter = new SongsAdapter(new ArrayList<>(), (songList, position) -> {
-        Intent intent = new Intent(Playlist_Songs.this, screen_now_playing_ex.class);
-        intent.putExtra("SONG_LIST", songList); // Truyền songList đã được cập nhật
-        intent.putExtra("SONG_INDEX", position);
-        startActivity(intent);
-    }, playlistName); // Thêm tham số playlistName vào đây
+        findViewById(R.id.repeat_button).setOnClickListener(v -> {
+            isRepeatEnabled = !isRepeatEnabled; // Đảo trạng thái repeat
+            // Bạn có thể thay đổi icon của nút hoặc cập nhật UI tại đây
+        });
 
-    recyclerView.setAdapter(adapter);
 
-    // Nếu tên playlist không null, load bài hát từ playlist
-    if (playlistName != null) {
-        loadSongsFromPlaylist(playlistName);
     }
-}
 
     private void loadSongsFromPlaylist(String playlistId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -113,4 +118,4 @@ protected void onCreate(Bundle savedInstanceState) {
         if (adapter != null) {
             adapter.setSongs(songs);
             adapter.notifyDataSetChanged();}
-}}
+    }}

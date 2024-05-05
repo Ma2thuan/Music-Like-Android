@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
+    android:animateLayoutChanges="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -65,10 +66,57 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0">
 
+            <!--app:layout_constraintBottom_toTopOf="@id/playlist_title"-->
+
+            <!--
+                        <TextView
+                            android:id="@+id/play_in"
+                            android:layout_width="64dp"
+                            android:layout_height="20dp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:paddingStart="6dp"
+                            android:paddingEnd="6dp"
+                            android:text="@string/play_in"
+                            android:textColor="#888"
+                            android:textSize="10sp"
+                            app:layout_constraintBottom_toBottomOf="@id/playlist_title"
+                            app:layout_constraintEnd_toStartOf="@id/playlist_title"
+                            app:layout_constraintHorizontal_chainStyle="packed"
+                            app:layout_constraintStart_toStartOf="@id/title"
+                            app:layout_constraintTop_toTopOf="@id/playlist_title" />
+            -->
+
+            <!--            <TextView
+                            android:id="@+id/playlist_title"
+                            android:layout_width="74dp"
+                            android:layout_height="28dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/ripple_16dp_translucent"
+                            android:clickable="true"
+                            android:ellipsize="end"
+                            android:focusable="true"
+                            android:gravity="center"
+                            android:maxLines="1"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:text="@string/all_songs"
+                            android:textColor="#999"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            app:layout_constrainedWidth="true"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/button_right"
+                            app:layout_constraintStart_toEndOf="@id/play_in"
+                            app:layout_constraintTop_toBottomOf="@id/title"
+                            tools:ignore="SmallSp" />-->
+
             <TextView
                 android:id="@+id/title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
                 android:ellipsize="marquee"
                 android:gravity="center"
                 android:marqueeRepeatLimit="marquee_forever"
@@ -77,58 +125,13 @@
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:textColor="@color/color_aaa"
-                android:textSize="13sp"
+                android:textSize="17sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@id/button_right"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="Scars to your beautiful • Alessia Cara - BRAVO The Hits 2016" />
-            <!--app:layout_constraintBottom_toTopOf="@id/playlist_title"-->
-
-<!--
-            <TextView
-                android:id="@+id/play_in"
-                android:layout_width="64dp"
-                android:layout_height="20dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:paddingStart="6dp"
-                android:paddingEnd="6dp"
-                android:text="@string/play_in"
-                android:textColor="#888"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="@id/playlist_title"
-                app:layout_constraintEnd_toStartOf="@id/playlist_title"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="@id/title"
-                app:layout_constraintTop_toTopOf="@id/playlist_title" />
--->
-
-<!--            <TextView
-                android:id="@+id/playlist_title"
-                android:layout_width="74dp"
-                android:layout_height="28dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="4dp"
-                android:background="@drawable/ripple_16dp_translucent"
-                android:clickable="true"
-                android:ellipsize="end"
-                android:focusable="true"
-                android:gravity="center"
-                android:maxLines="1"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/all_songs"
-                android:textColor="#999"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/button_right"
-                app:layout_constraintStart_toEndOf="@id/play_in"
-                app:layout_constraintTop_toBottomOf="@id/title"
-                tools:ignore="SmallSp" />-->
 
             <ImageView
                 android:id="@+id/button_right"
@@ -144,18 +147,18 @@
                 app:tint="#AAA" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-     <!--   <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="30dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@id/minimize_bar"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@id/title_panel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layoutManager="LinearLayoutManager"
-            tools:listitem="@layout/item_art_now_playing"
-            tools:orientation="horizontal" />-->
+        <!--   <androidx.recyclerview.widget.RecyclerView
+               android:id="@+id/recycler_view"
+               android:layout_width="30dp"
+               android:layout_height="0dp"
+               app:layout_constraintBottom_toBottomOf="@id/minimize_bar"
+               app:layout_constraintDimensionRatio="1:1"
+               app:layout_constraintEnd_toStartOf="@id/title_panel"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent"
+               tools:layoutManager="LinearLayoutManager"
+               tools:listitem="@layout/item_art_now_playing"
+               tools:orientation="horizontal" />-->
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"
@@ -199,50 +202,50 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:text="@string/this_is_name_of_the_song" />-->
 
-<!--        <TextView
-            android:id="@+id/big_artist"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:gravity="center"
-            android:paddingHorizontal="24dp"
-            android:textColor="#DDF5F5F5"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/time_text_view"
-            app:layout_constraintEnd_toEndOf="@id/big_title"
-            app:layout_constraintStart_toStartOf="@id/big_title"
-            tools:text="@string/this_is_artist_of_the_song" />-->
+        <!--        <TextView
+                    android:id="@+id/big_artist"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:gravity="center"
+                    android:paddingHorizontal="24dp"
+                    android:textColor="#DDF5F5F5"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/time_text_view"
+                    app:layout_constraintEnd_toEndOf="@id/big_title"
+                    app:layout_constraintStart_toStartOf="@id/big_title"
+                    tools:text="@string/this_is_artist_of_the_song" />-->
 
-<!--        <TextView
-            android:id="@+id/time_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="4dp"
-            android:alpha="0.85"
-            android:background="@drawable/time_text_view_background"
-            android:gravity="center"
-            android:paddingStart="8dp"
-            android:paddingTop="2dp"
-            android:paddingEnd="8dp"
-            android:paddingBottom="2dp"
-            android:textColor="@color/FlatWhite"
-            android:textSize="10sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="SmallSp"
-            tools:text="02:38 | 04:07" />-->
+        <!--        <TextView
+                    android:id="@+id/time_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="4dp"
+                    android:alpha="0.85"
+                    android:background="@drawable/time_text_view_background"
+                    android:gravity="center"
+                    android:paddingStart="8dp"
+                    android:paddingTop="2dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="2dp"
+                    android:textColor="@color/FlatWhite"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="SmallSp"
+                    tools:text="02:38 | 04:07" />-->
 
-<!--        <com.example.test3.ui.widget.avsb.AudioVisualSeekBar
-            android:id="@+id/visual_seek_bar"
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            app:layout_constraintBottom_toBottomOf="@id/bottom_gradient"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bottom_gradient" />-->
+        <!--        <com.example.test3.ui.widget.avsb.AudioVisualSeekBar
+                    android:id="@+id/visual_seek_bar"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    app:layout_constraintBottom_toBottomOf="@id/bottom_gradient"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/bottom_gradient" />-->
 
         <View
             android:id="@+id/bottom_gradient"
@@ -345,6 +348,19 @@
             app:layout_constraintTop_toBottomOf="@id/title_panel"
             app:srcCompat="@drawable/ic_more_vert_black_24dp"
             app:tint="@color/FlatWhite" />
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageView2"
+            android:layout_width="298dp"
+            android:layout_height="291dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_gradient"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/top_gradient"
+            app:shapeAppearanceOverlay="@style/CircleImageViewStyle"
+            app:srcCompat="@drawable/imv11" />
 
 
 

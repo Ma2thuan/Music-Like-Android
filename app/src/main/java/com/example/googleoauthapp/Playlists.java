@@ -33,7 +33,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.checkerframework.checker.units.qual.A;
 
 public class Playlists extends AppCompatActivity {
-   /* FirebaseFirestore db = FirebaseFirestore.getInstance();*/
+    /* FirebaseFirestore db = FirebaseFirestore.getInstance();*/
     private RecyclerView recyclerView;
     private PlaylistAdapter adapter;
     private List<Playlist> playlistList = new ArrayList<>();
@@ -57,77 +57,6 @@ public class Playlists extends AppCompatActivity {
 
         loadPlaylistsFromFirestore();}
 
-
-/*        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String useremail = GlobalVars.getUserEmail(); // Đảm bảo rằng biến này được khai báo và không null
-
-        if (useremail != null) {
-            // Truy vấn đến collection 'playlists'
-            db.collection("users").document(useremail).collection("playlists")
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot playlistDocument : task.getResult()) {
-                                    String playlistId = playlistDocument.getId();
-                                    Log.d(TAG, "Playlist ID: " + playlistId);
-
-                                    // Truy vấn đến collection 'songs' trong mỗi 'playlist'
-                                    db.collection("users").document(useremail).collection("playlists").document(playlistId).collection("songs")
-                                            .get()
-                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if (task.isSuccessful()) {
-                                                        for (QueryDocumentSnapshot songDocument : task.getResult()) {
-                                                            String songName = songDocument.getId(); // Tên của document là tên bài hát
-                                                            Log.d(TAG, "Song name: " + songName);
-                                                        }
-                                                    } else {
-                                                        Log.w(TAG, "Error getting songs.", task.getException());
-                                                    }
-                                                }
-                                            });
-                                }
-                            } else {
-                                Log.w(TAG, "Error getting playlists.", task.getException());
-                            }
-                        }
-                    });
-        } else {
-            // Xử lý trường hợp không lấy được useremail
-            Log.w(TAG, "User email is null");
-        }*/
-
-
-
-
-/*        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String userId = GlobalVars.getUserEmail();
-        if (useremail != null) {
-            db.collection("users").document(useremail).collection("playlists")
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                ArrayList<String> playlistNames = new ArrayList<>();
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    playlistNames.add(document.getId());
-                                }
-                                // Cập nhật adapter với danh sách playlist mới
-                                *//*musicAdapter.updatePlaylists(playlistNames);*//*
-                            } else {
-                                Log.w(TAG, "Error getting documents.", task.getException());
-                            }
-                        }
-                    });
-        } else {
-            // Xử lý trường hợp không lấy được useremail
-            Log.w(TAG, "User email is null");
-        }
-    }*/
     private void loadPlaylistsFromFirestore() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String userEmail = GlobalVars.getUserEmail();

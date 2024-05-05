@@ -1,12 +1,14 @@
 package com.example.googleoauthapp;
 
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -29,6 +31,8 @@ public class screen_now_playing extends AppCompatActivity {
     private SeekBar songProgressBar;
     private TextView currentDurationView;
     private TextView totalDurationView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +49,16 @@ public class screen_now_playing extends AppCompatActivity {
 
         // Phát bài hát hiện tại
         playMusic(songList.get(currentSongIndex).get("songPath"));
+
+        // Tìm ImageView bằng ID
+        ImageView imageView = findViewById(R.id.imageView2);
+
+        // Tạo ObjectAnimator để xoay ImageView
+        ObjectAnimator animator = ObjectAnimator.ofFloat(imageView, "rotation", 0f, 360f);
+        animator.setDuration(10000); // Thời gian xoay một vòng là 5000 milliseconds (5 giây)
+        animator.setRepeatCount(ObjectAnimator.INFINITE); // Xoay vô hạn lần
+        animator.setInterpolator(new LinearInterpolator()); // Xoay đều không giật cục
+        animator.start(); // Bắt đầu animation
 
         // Thiết lập các nút điều khiển
         setupControls();
@@ -98,7 +112,7 @@ public class screen_now_playing extends AppCompatActivity {
                 Intent intent = new Intent(view.getContext(), DashboardViewModel.class);
                 view.getContext().startActivity(intent);
                 finish();
-                }
+            }
         });
         // sekbar
         songProgressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

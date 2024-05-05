@@ -1,5 +1,6 @@
 package com.example.googleoauthapp;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,23 +41,23 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_feature_song, parent, false);
         return new SongViewHolder(view);
     }
-@Override
-public void onBindViewHolder(@NonNull SongViewHolder holder, int position) {
-    Song song = songList.get(position);
-    holder.songTitleTextView.setText(song.getTitle());
-    holder.itemView.setOnClickListener(view -> {
-        if (songItemClickListener != null) {
-            songItemClickListener.onSongClick(songList, position); // Truyền cả songList và vị trí
-        }
-    });
+    @Override
+    public void onBindViewHolder(@NonNull SongViewHolder holder, int position) {
+        Song song = songList.get(position);
+        holder.songTitleTextView.setText(song.getTitle());
+        holder.itemView.setOnClickListener(view -> {
+            if (songItemClickListener != null) {
+                songItemClickListener.onSongClick(songList, position); // Truyền cả songList và vị trí
+            }
+        });
 
-    holder.menuButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            // Khởi tạo PopupMenu tại đây
-            PopupMenu popup = new PopupMenu(v.getContext(), holder.menuButton);
-            popup.getMenuInflater().inflate(R.menu.popup_song_playlist, popup.getMenu());
-            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        holder.menuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Khởi tạo PopupMenu tại đây
+                PopupMenu popup = new PopupMenu(v.getContext(), holder.menuButton);
+                popup.getMenuInflater().inflate(R.menu.popup_song_playlist, popup.getMenu());
+          /*  popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 public boolean onMenuItemClick(MenuItem item) {
                     // Xử lý sự kiện khi một item menu được chọn
                     if (item.getItemId() == R.id.popup_song_remove_playlist) {
@@ -73,10 +74,37 @@ public void onBindViewHolder(@NonNull SongViewHolder holder, int position) {
 
                     return true;
                 }
-            });
-            popup.show(); // Hiển thị PopupMenu
-        }
-    });
+            });*/
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if (item.getItemId() == R.id.popup_song_remove_playlist) {
+                            // Lấy bài hát được chọn
+                            Song song = songList.get(holder.getAdapterPosition());
+
+                            // Hiển thị AlertDialog để xác nhận việc xóa
+                            new AlertDialog.Builder(v.getContext())
+                                    .setTitle("Xác nhận xóa")
+                                    .setMessage("Bạn có chắc chắn muốn xóa bài hát này khỏi playlist không?")
+                                    .setPositiveButton("Có", (dialogInterface, i) -> {
+                                        // Xóa bài hát khỏi playlist trong Firestore
+                                        removeSongFromPlaylist(song.getTitle(), playlistName);
+
+                                        // Cập nhật danh sách bài hát cục bộ và thông báo cho adapter
+                                        songList.remove(holder.getAdapterPosition());
+                                        notifyDataSetChanged();
+                                    })
+                                    .setNegativeButton("Không", null)
+                                    .show();
+
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+
+                popup.show(); // Hiển thị PopupMenu
+            }
+        });
     }
     @Override
     public int getItemCount() {
@@ -93,13 +121,13 @@ public void onBindViewHolder(@NonNull SongViewHolder holder, int position) {
         }
     }
 
-public interface SongItemClickListener {
-    void onSongClick(ArrayList<Song> songList, int position); // Cập nhật interface để nhận cả ArrayList và vị trí
-}
-public void setSongs(List<Song> songs) {
-    this.songList = new ArrayList<>(songs);
-    notifyDataSetChanged();
-}
+    public interface SongItemClickListener {
+        void onSongClick(ArrayList<Song> songList, int position); // Cập nhật interface để nhận cả ArrayList và vị trí
+    }
+    public void setSongs(List<Song> songs) {
+        this.songList = new ArrayList<>(songs);
+        notifyDataSetChanged();
+    }
     private void showPlaylistSelection(Context context, HashMap<String, String> song) {
 
     }
