@@ -1,9 +1,12 @@
 package com.example.googleoauthapp;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.content.Intent;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,7 +38,14 @@ public class top50 extends AppCompatActivity {
         binding.lvListMusic.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mSpotifyAppRemote.getPlayerApi().play("spotify:track" + songs.get(position).getId());
+                Intent intent = new Intent(top50.this , Spotify_Song_Play.class);
+
+
+                intent.putParcelableArrayListExtra("SongList" , songs);
+                intent.putExtra("Order" , position);
+
+                startActivity(intent);
+
             }
         });
     }

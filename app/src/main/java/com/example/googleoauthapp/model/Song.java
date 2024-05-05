@@ -1,5 +1,7 @@
 package com.example.googleoauthapp.model;
 
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
 public class Song implements Serializable {

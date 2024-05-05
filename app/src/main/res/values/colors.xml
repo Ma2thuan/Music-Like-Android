@@ -91,4 +91,7 @@
     <color name="greenStart">#a7f56e</color>
     <color name="greenEnd">#11c612</color>
     <color name="flatGreenEnd">#00BF84</color>
+    <color name="SelectedColor">#3dcc3d</color>
+
+
 </resources>
