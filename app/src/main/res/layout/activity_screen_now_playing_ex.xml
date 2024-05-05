@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
+    android:animateLayoutChanges="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -65,25 +66,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0">
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:gravity="center"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:textColor="@color/color_aaa"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@id/button_right"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed"
-                tools:text="Scars to your beautiful • Alessia Cara - BRAVO The Hits 2016" />
             <!--app:layout_constraintBottom_toTopOf="@id/playlist_title"-->
 
             <!--
@@ -129,6 +111,27 @@
                             app:layout_constraintStart_toEndOf="@id/play_in"
                             app:layout_constraintTop_toBottomOf="@id/title"
                             tools:ignore="SmallSp" />-->
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:ellipsize="marquee"
+                android:gravity="center"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:textColor="@color/color_aaa"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/button_right"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="Scars to your beautiful • Alessia Cara - BRAVO The Hits 2016" />
 
             <ImageView
                 android:id="@+id/button_right"
@@ -345,6 +348,19 @@
             app:layout_constraintTop_toBottomOf="@id/title_panel"
             app:srcCompat="@drawable/ic_more_vert_black_24dp"
             app:tint="@color/FlatWhite" />
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageView2"
+            android:layout_width="298dp"
+            android:layout_height="291dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_gradient"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/top_gradient"
+            app:shapeAppearanceOverlay="@style/CircleImageViewStyle"
+            app:srcCompat="@drawable/imv11" />
 
 
 

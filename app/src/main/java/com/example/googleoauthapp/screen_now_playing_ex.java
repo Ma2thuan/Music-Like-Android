@@ -1,11 +1,13 @@
 package com.example.googleoauthapp;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -47,6 +49,17 @@ public class screen_now_playing_ex extends AppCompatActivity {
         songList = (ArrayList<Song>) intent.getSerializableExtra("SONG_LIST");
         currentSongIndex = getIntent().getIntExtra("SONG_INDEX", 0);
         playMusic(songList.get(currentSongIndex).getPath());
+
+        boolean shuffleEnabled = getIntent().getBooleanExtra("SHUFFLE_ENABLED", false);
+        boolean repeatEnabled = getIntent().getBooleanExtra("REPEAT_ENABLED", false);
+
+        // Tạo ObjectAnimator để xoay ImageView
+        ImageView imageView = findViewById(R.id.imageView2);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(imageView, "rotation", 0f, 360f);
+        animator.setDuration(10000); // Thời gian xoay một vòng là 5000 milliseconds (5 giây)
+        animator.setRepeatCount(ObjectAnimator.INFINITE); // Xoay vô hạn lần
+        animator.setInterpolator(new LinearInterpolator()); // Xoay đều không giật cục
+        animator.start(); // Bắt đầu animation
 
         setupControls();
 
@@ -181,48 +194,48 @@ public class screen_now_playing_ex extends AppCompatActivity {
     }
 
 
-        private void updateProgressBar() {
-            mHandler.postDelayed(mUpdateTimeTask, 1000);
+    private void updateProgressBar() {
+        mHandler.postDelayed(mUpdateTimeTask, 1000);
+    }
+
+    private Handler mHandler = new Handler();
+    private Runnable mUpdateTimeTask = new Runnable() {
+        public void run() {
+            long currentDuration = mediaPlayer.getCurrentPosition();
+            currentDurationView.setText(milliSecondsToTimer(currentDuration));
+            songProgressBar.setProgress((int)currentDuration);
+            mHandler.postDelayed(this, 1000);
+        }
+    };
+
+    public String milliSecondsToTimer(long milliseconds){
+        String finalTimerString = "";
+        String secondsString;
+
+        // Chuyển đổi tổng thời gian thành thời gian phát
+        int hours = (int)(milliseconds / (1000*60*60));
+        int minutes = (int)(milliseconds % (1000*60*60)) / (1000*60);
+        int seconds = (int)((milliseconds % (1000*60*60)) % (1000*60) / 1000);
+        // Thêm giờ nếu có
+        if(hours > 0){
+            finalTimerString = hours + ":";
         }
 
-        private Handler mHandler = new Handler();
-        private Runnable mUpdateTimeTask = new Runnable() {
-            public void run() {
-                long currentDuration = mediaPlayer.getCurrentPosition();
-                currentDurationView.setText(milliSecondsToTimer(currentDuration));
-                songProgressBar.setProgress((int)currentDuration);
-                mHandler.postDelayed(this, 1000);
-            }
-        };
-
-        public String milliSecondsToTimer(long milliseconds){
-            String finalTimerString = "";
-            String secondsString;
-
-            // Chuyển đổi tổng thời gian thành thời gian phát
-            int hours = (int)(milliseconds / (1000*60*60));
-            int minutes = (int)(milliseconds % (1000*60*60)) / (1000*60);
-            int seconds = (int)((milliseconds % (1000*60*60)) % (1000*60) / 1000);
-            // Thêm giờ nếu có
-            if(hours > 0){
-                finalTimerString = hours + ":";
-            }
-
-            finalTimerString += (minutes < 10 ? "0" : "") + minutes + ":";
-            secondsString = (seconds < 10 ? "0" : "") + seconds;
-            finalTimerString += secondsString;
-            // trả về định dạng
-            return finalTimerString;
+        finalTimerString += (minutes < 10 ? "0" : "") + minutes + ":";
+        secondsString = (seconds < 10 ? "0" : "") + seconds;
+        finalTimerString += secondsString;
+        // trả về định dạng
+        return finalTimerString;
+    }
+    // Đảm bảo giải phóng MediaPlayer khi không cần thiết nữa
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacks(mUpdateTimeTask);
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
         }
-        // Đảm bảo giải phóng MediaPlayer khi không cần thiết nữa
-        @Override
-        protected void onDestroy() {
-            super.onDestroy();
-            mHandler.removeCallbacks(mUpdateTimeTask);
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-            }
-            mediaPlayer.release();
-            mHandler.removeCallbacks(mUpdateTimeTask);
-        }
+        mediaPlayer.release();
+        mHandler.removeCallbacks(mUpdateTimeTask);
+    }
 }

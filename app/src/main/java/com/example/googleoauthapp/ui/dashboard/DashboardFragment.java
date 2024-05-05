@@ -1,6 +1,8 @@
 package com.example.googleoauthapp.ui.dashboard;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,13 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 
 import com.example.googleoauthapp.MusicAdapter;
 import com.example.googleoauthapp.Playlists;
@@ -32,6 +37,8 @@ public class DashboardFragment extends Fragment {
     private RecyclerView recyclerView;
     private MusicAdapter musicAdapter;
     private ArrayList<HashMap<String, String>> songList;
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 1;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -65,7 +72,10 @@ public class DashboardFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
     }
+
+
 
     public ArrayList<HashMap<String, String>> getMusicFiles() {
         ArrayList<HashMap<String, String>> fileList = new ArrayList<>();
@@ -91,8 +101,6 @@ public class DashboardFragment extends Fragment {
         }
         return fileList;
     }
-
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();

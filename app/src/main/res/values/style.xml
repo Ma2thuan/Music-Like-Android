@@ -17,7 +17,7 @@
         <item name="colorControlHighlight">#66000000</item>
     </style>
     <style name="SplashThemeV2" parent="Theme.MaterialComponents.NoActionBar">
-       <!-- <item name="android:windowBackground">@drawable/splash</item>-->
+        <!-- <item name="android:windowBackground">@drawable/splash</item>-->
         <item name="colorPrimaryDark">@color/FlatWhite</item>
         <item name="colorPrimary">@color/FlatWhite</item>
         <item name="colorAccent">@color/flatOrange</item>
@@ -130,6 +130,12 @@
     <style name="CardLayerStyle" parent="@style/Widget.MaterialComponents.CardView">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay_card_custom_corners</item>
     </style>
+
+    <style name="CircleImageViewStyle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
 
 
     <style name="ShapeAppearanceOverlay_card_custom_corners" parent="">
