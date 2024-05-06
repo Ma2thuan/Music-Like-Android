@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     private Song song;
     private SongService songService;
     private ArrayList<Song> recentlyPlayedTracks;
-    private ArrayList<Song> recentlyFoundTracks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -21,13 +21,17 @@ import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
 
+import javax.security.auth.callback.Callback;
+
 public class SplashActivity extends AppCompatActivity {
 
     ActivitySplashBinding binding;
     private static final String CLIENT_ID ="4e5e333774674e6d9b9a34f9f68fe051";
+
+    private static final String CLIENT_SECRET  = "705ce5c758404b979ec1a439fa0fd281";
     private static final String REDIRECT_URI = "http://localhost:8888/callback";
     private static final int REQUEST_CODE = 1337;
-    private static final String SCOPES = "user-read-recently-played,user-library-modify,user-read-email,user-read-private,streaming";
+    private static final String SCOPES = "user-read-recently-played,user-library-modify,user-read-email,user-read-private,streaming,user-modify-playback-state";
 
     private SharedPreferences.Editor editor;
     private SharedPreferences msharedPreferences;
@@ -47,23 +51,22 @@ public class SplashActivity extends AppCompatActivity {
         msharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
         queue = Volley.newRequestQueue(this);
 
-        SpotifyAppRemote.connect(this, connectionParams,
-                new Connector.ConnectionListener() {
-                    @Override
-                    public void onConnected(SpotifyAppRemote spotifyAppRemote) {
-                        mSpotifyAppRemote = spotifyAppRemote;
-                        Log.d("SongPlay", "Connected! Yay!");
-
-                        connected();
-                        //spotifyAppRemote.getPlayerApi().play("spotify:playlist:" + songService.getSongs().toString() );
-
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-
-                    }
-                });
+//        SpotifyAppRemote.connect(this, connectionParams,
+//                new Connector.ConnectionListener() {
+//                    @Override
+//                    public void onConnected(SpotifyAppRemote spotifyAppRemote) {
+//                        mSpotifyAppRemote = spotifyAppRemote;
+//                        Log.d("SongPlay", "Connected! Yay!");
+//
+//                        connected();
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Throwable throwable) {
+//
+//                    }
+//                });
 
 
     }
@@ -90,6 +93,10 @@ public class SplashActivity extends AppCompatActivity {
                     editor = getSharedPreferences("SPOTIFY", 0).edit();
                     editor.putString("token", response.getAccessToken());
                     Log.d("SpotifyAuth", "GOT AUHT TOKEN" + response.getAccessToken() );
+
+                    Log.d("SpotifyAuth", "TIME : " + response.getExpiresIn() );
+
+
                     editor.apply();
 
                     waitForUserInfo();
@@ -111,6 +118,8 @@ public class SplashActivity extends AppCompatActivity {
             }
         }
     }
+
+
 
     private void waitForUserInfo() {
         UserService userService = new UserService(queue, msharedPreferences);
@@ -146,15 +155,16 @@ public class SplashActivity extends AppCompatActivity {
         // We will start writing our code here.
     }
 
-    private void connected() {
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-
-        String message = sharedPreferences.getString("TRACK_ID_KEY", "");
-
-        mSpotifyAppRemote.getPlayerApi().play("spotify:track:"+message);
-
-        Log.d("SongPlay","spotify:track:"+message);
-    }
+//    private void connected() {
+//        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+//
+//        String message = sharedPreferences.getString("TRACK_ID_KEY", "");
+//
+//
+//        mSpotifyAppRemote.getPlayerApi().play("spotify:track:" + message);
+//
+//        Log.d("SongPlay","spotify:track:"+message);
+//    }
 
     @Override
     protected void onStop() {

@@ -85,7 +85,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'com.google.firebase:firebase-firestore:11.8.0'
 
-
+    // ohktk3
+    implementation libs.okhttp
+    implementation libs.json
 
 
 }

@@ -6,9 +6,11 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.googleoauthapp.Class.Song;
 import com.example.googleoauthapp.Class.SongTest;
@@ -274,6 +276,158 @@ public class SongService {
                 return headers;
             }
         };
+    }
+
+    public void skipToNextTrack() {
+        String endpoint = "https://api.spotify.com/v1/me/player/next";
+        Log.d("ERROR", "skipToNextTrack: " );
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST, endpoint, null,
+                response -> {
+                    // Handle successful response here, if needed
+                    Log.d("ERROR", "skipToNextTrack: " + response.toString());
+                },
+                error -> {
+                    // Handle error here
+                    Log.d("ERROR", "skipToNextTrack: " + error.toString());
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String token = sharedPreferences.getString("token", "");
+                String auth = "Bearer " + token;
+                headers.put("Authorization", auth);
+                return headers;
+            }
+        };
+        queue.add(jsonObjectRequest);
+    }
+
+    public void repeatTrack() {
+
+            String endpoint = "https://api.spotify.com/v1/me/player/repeat";
+            Log.d("ERROR", "repeatTrack: ");
+
+            String url = endpoint + "?state=track";
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                    Request.Method.PUT, url, null,
+                    response -> {
+                        // Handle successful response here, if needed
+                        Log.d("ERROR", "repeatTrack: " + response.toString());
+                    },
+                    error -> {
+                        // Handle error here
+                        Log.d("ERROR", "repeatTrack: " + error.toString());
+                        Log.d("ERROR", "repeatTrack: " + error.getMessage());
+
+                        // Get the error code
+                        NetworkResponse networkResponse = error.networkResponse;
+                        if (networkResponse!= null) {
+                            int errorCode = networkResponse.statusCode;
+                            Log.d("ERROR", "Error Code: " + errorCode);
+                        } else {
+                            Log.d("ERROR", "Error Code: Unknown");
+                        }
+                    }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    String token = sharedPreferences.getString("token", "");
+                    String auth = "Bearer " + token;
+                    headers.put("Authorization", auth);
+                    return headers;
+                }
+            };
+            queue.add(jsonObjectRequest);
+        }
+
+
+    private String getRepeatState() {
+        // Make a GET request to the repeat endpoint to get the current repeat state
+        String endpoint = "https://api.spotify.com/v1/me/player/repeat";
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET, endpoint,
+                response -> {
+                    // Extract the repeat state from the response
+                    try {
+                        JSONObject responseJson = new JSONObject(response);
+                        String state = responseJson.getString("state");
+                        // Do something with the repeat state
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    // Handle error here
+                    Log.d("ERROR", "getRepeatState: " + error.toString());
+                    Log.d("ERROR", "getRepeatState: " + error.getMessage());
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String token = sharedPreferences.getString("token", "");
+                String auth = "Bearer " + token;
+                headers.put("Authorization", auth);
+                return headers;
+            }
+        };
+
+        queue.add(stringRequest);
+
+        return endpoint;
+    }
+
+
+
+    public void resumeSongRequest(String contextUri, JSONObject offsetPosition) {
+        String endpoint = "https://api.spotify.com/v1/me/player/play";
+        Log.d("ERROR", "startOrResumeTrackWithContext: ");
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("context_uri", contextUri);
+            if (offsetPosition!= null) {
+                int position = offsetPosition.getInt("position");
+                JSONObject offsetJson = new JSONObject();
+                offsetJson.put("position", position);
+                jsonObject.put("offset", offsetJson);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.PUT, endpoint, jsonObject,
+                response -> {
+                    // Handle successful response here, if needed
+                    Log.d("ERROR", "startOrResumeTrackWithContext: " + response.toString());
+                },
+                error -> {
+                    // Handle error here
+                    Log.d("ERROR", "startOrResumeTrackWithContext: " + error.toString());
+                    Log.d("ERROR", "startOrResumeTrackWithContext: " + error.getMessage());
+
+                    // Get the error code
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse!= null) {
+                        int errorCode = networkResponse.statusCode;
+                        Log.d("ERROR", "Error Code: " + errorCode);
+                    } else {
+                        Log.d("ERROR", "Error Code: Unknown");
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String token = sharedPreferences.getString("token", "");
+                String auth = "Bearer " + token;
+                headers.put("Authorization", auth);
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+        queue.add(jsonObjectRequest);
     }
 
     private JSONObject preparePutPayload(Song song) {
