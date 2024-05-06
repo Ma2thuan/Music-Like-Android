@@ -1,6 +1,5 @@
 package com.example.googleoauthapp;
 
-import static android.app.PendingIntent.getActivity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,7 +34,6 @@ public class MainActivity2 extends AppCompatActivity {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
-
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         imageView = findViewById(R.id.imageView);
@@ -52,6 +50,7 @@ public class MainActivity2 extends AppCompatActivity {
                 }
             }
         });
+
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this );
         if (acct != null) {
             String personName = acct.getDisplayName();
@@ -65,6 +64,7 @@ public class MainActivity2 extends AppCompatActivity {
             Glide.with(this).load(String.valueOf(personPhoto)).into(imageView);
         }
     }
+
     private void signOut() {
         mGoogleSignInClient.signOut()
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {

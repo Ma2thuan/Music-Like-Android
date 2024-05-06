@@ -58,9 +58,11 @@ public class Playlists extends AppCompatActivity {
         loadPlaylistsFromFirestore();}
 
     private void loadPlaylistsFromFirestore() {
+        //Tạo instance FirebaseFirestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        //Lấy userEmail từ GlobalVars
         String userEmail = GlobalVars.getUserEmail();
-        if (userEmail != null) {
+        if (userEmail != null) {//Truy vấn và load dữ liệu từ Firestore
             db.collection("users").document(userEmail).collection("playlists")
                     .get()
                     .addOnCompleteListener(task -> {
