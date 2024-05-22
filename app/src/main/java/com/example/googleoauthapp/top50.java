@@ -31,6 +31,7 @@ public class top50 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding=ActivityTop50Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         service = new SongService(getApplicationContext());
 
         loadData();

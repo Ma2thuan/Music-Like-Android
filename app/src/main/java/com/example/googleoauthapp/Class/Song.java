@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-public class Song implements Parcelable {
+public class Song implements Parcelable  {
     private String id;
     private String name;
 

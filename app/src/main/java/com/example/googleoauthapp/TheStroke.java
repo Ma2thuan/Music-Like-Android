@@ -1,5 +1,6 @@
 package com.example.googleoauthapp;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -18,6 +19,8 @@ public class TheStroke extends AppCompatActivity {
     SongService service;
     ArrayList<Song> songs;
     ArrayList<Song> takeSongs;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,14 +37,14 @@ public class TheStroke extends AppCompatActivity {
         Log.i("test", "ok");
         songs.clear();
 
-        service.getTheStrokes(() -> {
+        service.findTrack(() -> {
             takeSongs = service.getSongs();
             if (takeSongs!= null &&!takeSongs.isEmpty()) {
                 // Add a new song to songs
                 for (int i = 0; i < takeSongs.size(); i++) {
-                    songs.add(i, new Song(takeSongs.get(i).getId(),takeSongs.get(i).getName() , R.drawable.the_strokes));
+                    songs.add(i, new Song(takeSongs.get(i).getId(),takeSongs.get(i).getName() , R.drawable.ngot_band));
 
-                    Log.d("TAG2", songs.get(i).getName() + " " + songs.get(i).getId());
+                    Log.d("TAG3", songs.get(i).getName() + " " + songs.get(i).getId());
                 }
 
                 // Update the adapter with the new songs list
@@ -53,5 +56,5 @@ public class TheStroke extends AppCompatActivity {
                 }
             }
         });
+        }
     }
-}

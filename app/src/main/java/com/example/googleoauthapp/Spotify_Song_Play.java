@@ -9,6 +9,7 @@ import android.media.session.PlaybackState;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 
 import com.example.googleoauthapp.Connectors.SongService;
@@ -48,6 +49,8 @@ public class Spotify_Song_Play extends AppCompatActivity {
 
     private SpotifyAppRemote mSpotifyAppRemote;
 
+    private Song song;
+
     private PlayerApi playerApi;
     int flag = 0;
     @Override
@@ -57,6 +60,7 @@ public class Spotify_Song_Play extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         service = new SongService(getApplicationContext());
+
 
 
         playCLickSong();
@@ -104,6 +108,8 @@ public class Spotify_Song_Play extends AppCompatActivity {
                     .setRedirectUri(REDIRECT_URI)
                     .showAuthView(true)
                     .build();
+
+
 
 
     private void event() {
@@ -166,6 +172,7 @@ public class Spotify_Song_Play extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         mSpotifyAppRemote.getPlayerApi().skipPrevious();
+                        updateSong();
                     }
                 });
 
@@ -173,8 +180,34 @@ public class Spotify_Song_Play extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         mSpotifyAppRemote.getPlayerApi().skipNext();
+                        updateSong();
                     }
                 });
+
+
+
+                binding.likeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Log.d("ERROR1" , "stuff");
+
+                        Intent intent = getIntent();
+
+                        songs = intent.<Song>getParcelableArrayListExtra("SongList");
+
+                        int position = getIntent().getIntExtra("Order" , 0);
+
+                        service.addSongToLibrary(songs.get(position));
+
+                    }
+                });
+
+
+
+
+
+
 
 //                Intent intent = getIntent();
 //
@@ -199,6 +232,12 @@ public class Spotify_Song_Play extends AppCompatActivity {
         return 200;
     }
 
+    private void updateSong(){
+
+        int position = getIntent().getIntExtra("Order" , 0);
+
+        binding.songName.setText((songs.get(position).getName()));
+    }
 
     private void loadData() {
         songs = new ArrayList<Song>();

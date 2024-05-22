@@ -1,8 +1,11 @@
 package com.example.googleoauthapp.Connectors;
 
+import static android.app.PendingIntent.getActivity;
+import static android.content.Context.MODE_APPEND;
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -14,6 +17,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.googleoauthapp.Class.Song;
 import com.example.googleoauthapp.Class.SongTest;
+import com.example.googleoauthapp.R;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -26,12 +30,16 @@ import java.util.Map;
 
 public class SongService {
     private ArrayList<Song> songs = new ArrayList<>();
+    private Context context;
 
     //Test
     private ArrayList<SongTest> songTests = new ArrayList<>();
 
     private SharedPreferences sharedPreferences;
     private RequestQueue queue;
+
+
+
 
     public SongService(Context context) {
         sharedPreferences = context.getSharedPreferences("SPOTIFY", 0);
@@ -278,6 +286,84 @@ public class SongService {
         };
     }
 
+
+    public ArrayList<Song> findTrack(final VolleyCallBack callBack) {
+
+        Log.d("findtrack", "12");
+
+        //SharedPreferences sh = context.getApplicationContext().getSharedPreferences("FindTrackName", MODE_PRIVATE);
+
+
+        String endpoint = "https://api.spotify.com/v1/search";
+
+        String type = "track";
+
+        //String q = sh.getString("findTrackName" , "");
+
+        String q = "Thu Cuoi";
+
+
+        Log.d("findtrack", q + type + endpoint);
+
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                endpoint + "?q=" + q + "&type=" + type,
+                null,
+                response -> {
+                    // Clear existing songs
+                    songs.clear();
+                    Log.d("findtrack", endpoint + "?q=" + q + "&type=" + type);
+                    // Navigate JSON to retrieve tracks
+                    JSONArray tracksArray = response.optJSONObject("tracks").optJSONArray("items");
+                    if (tracksArray!= null) {
+                        for (int i = 0; i < tracksArray.length(); i++) {
+                            JSONObject trackObject = tracksArray.optJSONObject(i);
+                            if (trackObject!= null) {
+                                String trackName = trackObject.optString("name");
+                                String trackId = trackObject.optString("id");
+
+                                Song song = new Song(trackId, trackName , R.drawable.the_strokes );
+                                songs.add(song);
+
+                                Log.d("testing" , songs.get(0).getId());
+                                Log.d("testing" , songs.get(0).getName());
+
+                            }
+                        }
+                    }
+                    callBack.onSuccess();
+                    Log.d("ERROR", "repeatTrack: " + response.toString());
+
+
+                },
+                error -> {
+                    Log.d("ERROR2", "12121");
+
+                    NetworkResponse networkResponse = error.networkResponse;
+                    if (networkResponse!= null) {
+                        int errorCode = networkResponse.statusCode;
+                        Log.d("ERROR", "Error Code: " + errorCode);
+                    } else {
+                        Log.d("ERROR", "Error Code: Unknown");
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String token = sharedPreferences.getString("token", "");
+                String auth = "Bearer " + token;
+                headers.put("Authorization", auth);
+                return headers;
+            }
+        };
+
+        queue.add(jsonObjectRequest);
+        return songs;
+    }
+
+
     public void skipToNextTrack() {
         String endpoint = "https://api.spotify.com/v1/me/player/next";
         Log.d("ERROR", "skipToNextTrack: " );
@@ -451,8 +537,5 @@ public class SongService {
         Log.d("SIZE" , String.valueOf(songs.size()));
         return songTests;
     }
-
-
-
 
 }
