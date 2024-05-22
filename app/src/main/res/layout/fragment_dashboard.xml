@@ -5,75 +5,58 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".ui.dashboard.DashboardFragment">
-    <!-- Thanh tìm kiếm -->
 
-    <!--    <EditText
-            android:id="@+id/search_bar"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:hint="Tìm kiếm"
-            android:layout_alignParentRight="true"
-            android:inputType="text" />-->
 
-<!--    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/text_dashboard"
-        app:layout_constraintBottom_toTopOf="@+id/recycler_view">
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/baihat"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:text="Bài hát"
-            tools:layout_editor_absoluteX="2dp"
-            tools:layout_editor_absoluteY="72dp" />
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/playlist"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:text="Playlist"
-            tools:layout_editor_absoluteX="210dp"
-            tools:layout_editor_absoluteY="125dp" />
-
-        &lt;!&ndash; Thêm các TabItem khác tương tự &ndash;&gt;
-    </com.google.android.material.tabs.TabLayout>-->
-
-    <!-- RecyclerView cho danh sách bài hát -->
-
-    <TextView
-        android:id="@+id/text_dashboard"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:text="@string/music"
-        android:textAlignment="center"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
+    <FrameLayout
+        android:id="@+id/frame_layout"
+        android:layout_width="409dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/recycler_view"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
-    <Button
-        android:id="@+id/button_playlist"
-        android:layout_width="148dp"
-        android:layout_height="54dp"
-        android:layout_below="@+id/text_dashboard"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:text="Playlist"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_dashboard" />
+<!--        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/img_3" />-->
+
+
+        <TextView
+            android:id="@+id/text_dashboard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="50dp"
+            android:gravity="left|center"
+            android:text="@string/music"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button_playlist"
+            android:layout_width="148dp"
+            android:layout_height="54dp"
+            android:text="Playlist"
+            android:layout_gravity="right"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </FrameLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:layout_width="411dp"
-        android:layout_height="587dp"
-        android:layout_below="@+id/button_playlist"
+        android:layout_width="414dp"
+        android:layout_height="658dp"
+        android:layout_below="@+id/frame_layout"
+        android:clipToPadding="false"
         android:overScrollMode="never"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_playlist"
+        app:layout_constraintTop_toBottomOf="@+id/frame_layout"
         tools:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/item_feature_song"
+        tools:listitem="@layout/item_song_normal"
         tools:orientation="vertical" />
 </androidx.constraintlayout.widget.ConstraintLayout>

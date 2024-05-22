@@ -56,7 +56,7 @@ public class screen_now_playing_ex extends AppCompatActivity {
         // Tạo ObjectAnimator để xoay ImageView
         ImageView imageView = findViewById(R.id.imageView2);
         ObjectAnimator animator = ObjectAnimator.ofFloat(imageView, "rotation", 0f, 360f);
-        animator.setDuration(10000); // Thời gian xoay một vòng là 5000 milliseconds (5 giây)
+        animator.setDuration(10000); // Thời gian xoay một vòng là 10000 milliseconds (5 giây)
         animator.setRepeatCount(ObjectAnimator.INFINITE); // Xoay vô hạn lần
         animator.setInterpolator(new LinearInterpolator()); // Xoay đều không giật cục
         animator.start(); // Bắt đầu animation
@@ -118,7 +118,6 @@ public class screen_now_playing_ex extends AppCompatActivity {
 
     private void setupControls() {
         ImageView playPauseButton = findViewById(R.id.play_pause_button);
-        // Các listener cho playPauseButton như trước
         playPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

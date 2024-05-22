@@ -47,7 +47,8 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
         holder.songTitleTextView.setText(song.getTitle());
         holder.itemView.setOnClickListener(view -> {
             if (songItemClickListener != null) {
-                songItemClickListener.onSongClick(songList, position); // Truyền cả songList và vị trí
+                // Truyền cả songList và vị trí
+                songItemClickListener.onSongClick(songList, position);
             }
         });
 
@@ -81,7 +82,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
                             // Lấy bài hát được chọn
                             Song song = songList.get(holder.getAdapterPosition());
 
-                            // Hiển thị AlertDialog để xác nhận việc xóa
+                            // AlertDialog xác nhận xóa
                             new AlertDialog.Builder(v.getContext())
                                     .setTitle("Xác nhận xóa")
                                     .setMessage("Bạn có chắc chắn muốn xóa bài hát này khỏi playlist không?")
@@ -89,7 +90,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
                                         // Xóa bài hát khỏi playlist trong Firestore
                                         removeSongFromPlaylist(song.getTitle(), playlistName);
 
-                                        // Cập nhật danh sách bài hát cục bộ và thông báo cho adapter
+                                        // Cập nhật danh sách bài hát và thông báo cho adapter
                                         songList.remove(holder.getAdapterPosition());
                                         notifyDataSetChanged();
                                     })

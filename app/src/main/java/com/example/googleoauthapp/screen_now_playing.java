@@ -14,6 +14,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 
 import com.example.googleoauthapp.ui.dashboard.DashboardViewModel;
@@ -24,13 +26,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class screen_now_playing extends AppCompatActivity {
-    MediaPlayer mediaPlayer = new MediaPlayer();
+    MediaPlayer mediaPlayer = new MediaPlayer();// Tạo instance của MediaPlayer
     private ArrayList<HashMap<String, String>> songList;
-    private int currentSongIndex = 0;
+    private int currentSongIndex = 0;//Biến theo dõi vị trí bài hát hiện tại
     boolean isPlaying = false; // Biến theo dõi trạng thái phát nhạc
-    private SeekBar songProgressBar;
-    private TextView currentDurationView;
-    private TextView totalDurationView;
+    private SeekBar songProgressBar; //Biến theo dõi thanh progress bar
+    private TextView currentDurationView;//Biến theo dõi thời gian hiện tại
+    private TextView totalDurationView;// Biến theo dõi thời gian của bài hát
 
 
     @Override
@@ -55,33 +57,38 @@ public class screen_now_playing extends AppCompatActivity {
 
         // Tạo ObjectAnimator để xoay ImageView
         ObjectAnimator animator = ObjectAnimator.ofFloat(imageView, "rotation", 0f, 360f);
-        animator.setDuration(10000); // Thời gian xoay một vòng là 5000 milliseconds (5 giây)
+        animator.setDuration(10000); // Thời gian xoay một vòng là 10000 milliseconds (10 giây)
         animator.setRepeatCount(ObjectAnimator.INFINITE); // Xoay vô hạn lần
-        animator.setInterpolator(new LinearInterpolator()); // Xoay đều không giật cục
+        animator.setInterpolator(new LinearInterpolator()); // Xoay đều
         animator.start(); // Bắt đầu animation
 
         // Thiết lập các nút điều khiển
         setupControls();
     }
     private void setupControls() {
+
+        //Sự kiện dừng/phát nhạc
         ImageView playPauseButton = findViewById(R.id.play_pause_button);
-        // Các listener cho playPauseButton như trước
         playPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Kiểm tra trạng thái và thay đổi hình ảnh và trạng thái phát nhạc
                 if (isPlaying) {
                     mediaPlayer.pause(); // Dừng phát nhạc
-                    playPauseButton.setImageResource(R.drawable.ic_play_white); // Thay đổi hình ảnh thành icon play
+                    // Thay đổi hình ảnh thành icon play
+                    playPauseButton.setImageResource(R.drawable.ic_play_white);
                     isPlaying = false;
                 } else {
                     mediaPlayer.start(); // Bắt đầu phát nhạc
-                    playPauseButton.setImageResource(R.drawable.ic_pause_black_24dp); // Thay đổi hình ảnh thành icon pause
+                    // Thay đổi hình ảnh thành icon pause
+                    playPauseButton.setImageResource(R.drawable.ic_pause_black_24dp);
                     isPlaying = true;
                 }
             }
         });
 
+
+        // Sự kiện chuyển sang bài hát phía trước trong list nhạc
         ImageView prevButton = findViewById(R.id.prev_button);
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +101,7 @@ public class screen_now_playing extends AppCompatActivity {
             }
         });
 
+        //Sự kiện chuển sang bài hát phía sau trong list nhạc
         ImageView nextButton = findViewById(R.id.next_button);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,16 +113,17 @@ public class screen_now_playing extends AppCompatActivity {
                 }
             }
         });
+        //Sự kiện chuyển trở về màn hình phía trước
         ImageView backButton = findViewById(R.id.button_right);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), DashboardViewModel.class);
+  /*              Intent intent = new Intent(view.getContext(), DashboardViewModel.class);
                 view.getContext().startActivity(intent);
-                finish();
+                finish();*/
             }
         });
-        // sekbar
+        //ProgressBar
         songProgressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -124,11 +133,12 @@ public class screen_now_playing extends AppCompatActivity {
                 }
             }
 
+            //Hàm bắt đầu sự kiện kéo/thay đổi thanh tiến độ(progress bar)
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 mHandler.removeCallbacks(mUpdateTimeTask);
             }
-
+            //Hàm kết thúc sự kiện kéo/thay đổi thanh tiến độ(progress bar) và thay đổi các giá trị
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 mHandler.removeCallbacks(mUpdateTimeTask);
@@ -154,9 +164,7 @@ public class screen_now_playing extends AppCompatActivity {
                 public void onPrepared(MediaPlayer mp) {
                     mp.start();
                     isPlaying = true;
-
                     updateProgressBar();
-
                     mHandler.postDelayed(mUpdateTimeTask, 1000);
 
                     // Cập nhật tên bài hát lên TextView
@@ -166,7 +174,7 @@ public class screen_now_playing extends AppCompatActivity {
                         titleTextView.setText(songTitle);}
                     titleTextView.setSelected(true);
 
-                    // Cập nhật thời gian tổng cộng
+                    // Cập nhật thời gian của bài hát
                     int totalDuration = mediaPlayer.getDuration();
                     totalDurationView.setText(milliSecondsToTimer(totalDuration));
                     // Cập nhật thanh tiến độ
@@ -184,7 +192,7 @@ public class screen_now_playing extends AppCompatActivity {
                         currentSongIndex++;
                         playMusic(songList.get(currentSongIndex).get("songPath"));
                     } else {
-                        // Nếu là bài cuối, quay lại bài đầu tiên hoặc dừng phát
+                        // Nếu là bài cuối, quay lại bài đầu tiên
                         currentSongIndex = 0;
                         playMusic(songList.get(currentSongIndex).get("songPath"));
                     }
@@ -204,6 +212,7 @@ public class screen_now_playing extends AppCompatActivity {
         }
     };
 
+    //Hàm chuyển đổi thời gian bài hát
     public String milliSecondsToTimer(long milliseconds){
         String finalTimerString = "";
         String secondsString;
@@ -223,7 +232,7 @@ public class screen_now_playing extends AppCompatActivity {
         // trả về định dạng
         return finalTimerString;
     }
-    // Đảm bảo giải phóng MediaPlayer khi không cần thiết nữa
+    // Giải phóng MediaPlayer khi không cần thiết
     @Override
     protected void onDestroy() {
         super.onDestroy();
