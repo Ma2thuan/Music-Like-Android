@@ -56,6 +56,7 @@ public class top50 extends AppCompatActivity {
         Log.i("test", "ok");
         songs.clear();
 
+
         service.getTop50(() -> {
             takeSongs = service.getSongs();
             if (takeSongs!= null &&!takeSongs.isEmpty()) {
