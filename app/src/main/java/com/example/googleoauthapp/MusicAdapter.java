@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -19,12 +20,19 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,6 +70,10 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
                         // Xử lý sự kiện khi một item menu được chọn
+                        if (item.getItemId() == R.id.popup_song_upload) {
+                            // Hiển thị danh sách playlist hoặc tùy chọn tạo playlist mới
+                            uploadSongToStorage(v.getContext(), song);
+                        }
 
                         if (item.getItemId() == R.id.popup_song_add_to_playlist) {
                             // Hiển thị danh sách playlist hoặc tùy chọn tạo playlist mới
@@ -73,6 +85,37 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
             }
         });
     }
+
+
+    private void uploadSongToStorage(Context context, HashMap<String, String> song) {
+        String userEmail = GlobalVars.getUserEmail();
+        if (userEmail != null && !userEmail.isEmpty()) {
+            // Người dùng đã đăng nhập, tiến hành tải lên
+            String songPath = song.get("songPath");
+            Uri file = Uri.fromFile(new File(songPath));
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+           /* StorageReference songRef = storageRef.child("songs/" + file.getLastPathSegment());*/
+            String sanitizedEmail = userEmail.replace(".", "_");
+            StorageReference songRef = storageRef.child("users/" + sanitizedEmail + "/" + file.getLastPathSegment());
+            UploadTask uploadTask = songRef.putFile(file);
+
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(context, "Tải lên thành công.", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(context, "Tải lên thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            // Người dùng chưa đăng nhập hoặc email không hợp lệ
+            Toast.makeText(context, "Bạn cần đăng nhập để sử dụng chức năng này.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     @Override
     public int getItemCount() {

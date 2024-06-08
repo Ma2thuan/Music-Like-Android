@@ -20,4 +20,13 @@ public class GlobalVars {
     public static void setUserEmail(String email) {
         useremail = email;
     }
+
+    private static String token;
+    public static String getToken() {
+        return token;
+    }
+
+    public static void setToken(String token) {
+        GlobalVars.token = token;
+    }
 }

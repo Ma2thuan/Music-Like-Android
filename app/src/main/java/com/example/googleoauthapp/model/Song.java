@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public class Song implements Serializable {
     private String title;
-    public String path; // Giả sử bạn cũng muốn lưu trữ đường dẫn của bài hát
+    public String path;
 
     public Song(String title, String path) {
 

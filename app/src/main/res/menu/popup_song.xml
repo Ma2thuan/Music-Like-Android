@@ -15,8 +15,8 @@
 
 
     <item
-        android:id="@+id/popup_song_share"
-        android:title="Share" />
+        android:id="@+id/popup_song_upload"
+        android:title="Upload" />
 
     <item
         android:id="@+id/popup_song_delete"
