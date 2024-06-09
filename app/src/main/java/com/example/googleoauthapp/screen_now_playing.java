@@ -2,6 +2,9 @@ package com.example.googleoauthapp;
 
 
 import android.animation.ObjectAnimator;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -64,6 +67,10 @@ public class screen_now_playing extends AppCompatActivity {
 
         // Thiết lập các nút điều khiển
         setupControls();
+
+        // Ví dụ: hẹn giờ tắt nhạc sau 30 phút
+        scheduleMusicShutdown(20);
+
     }
     private void setupControls() {
 
@@ -243,4 +250,16 @@ public class screen_now_playing extends AppCompatActivity {
         mediaPlayer.release();
         mHandler.removeCallbacks(mUpdateTimeTask);
     }
+
+
+
+    public void scheduleMusicShutdown(int timeInSeconds) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, MusicShutdownReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_MUTABLE);
+
+        long shutdownTime = System.currentTimeMillis() + timeInSeconds * 1000;
+        alarmManager.set(AlarmManager.RTC_WAKEUP, shutdownTime, pendingIntent);
+    }
+
 }

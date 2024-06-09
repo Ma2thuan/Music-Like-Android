@@ -1,21 +1,30 @@
 package com.example.googleoauthapp.ui.notifications;
 
+import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.media3.common.util.UnstableApi;
 
 import com.example.googleoauthapp.ActDrive;
 import com.example.googleoauthapp.GlobalVars;
 import com.example.googleoauthapp.MainActivity2;
+import com.example.googleoauthapp.MusicShutdownReceiver;
 import com.example.googleoauthapp.R;
 import com.example.googleoauthapp.databinding.FragmentNotificationsBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -66,7 +75,7 @@ public class NotificationsFragment extends Fragment {
 
         Button updriveButton = root.findViewById(R.id.updrive);
         updriveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
+            @UnstableApi @Override
             public void onClick(View v) {
                 // Chuyển đến Activity mới để hiển thị danh sách bài hát
                 Intent intent = new Intent(getActivity(), ActDrive.class);
@@ -74,6 +83,37 @@ public class NotificationsFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        Button sleepTimeButton = root.findViewById(R.id.sleep_time);
+        sleepTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Sleep Timer");
+
+                final EditText input = new EditText(getActivity());
+                input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                builder.setView(input);
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        float timeInMinutes = Float.parseFloat(input.getText().toString());
+                        scheduleMusicShutdown((int) (timeInMinutes * 60));
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+            }
+        });
+
+
 
         return root;
     }
@@ -182,6 +222,16 @@ public class NotificationsFragment extends Fragment {
             Log.w("Storage", "Failed to create temp file", e);
         }
     }
+
+    public void scheduleMusicShutdown(int timeInSeconds) {
+        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getContext(), MusicShutdownReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, PendingIntent.FLAG_MUTABLE);
+
+        long shutdownTime = System.currentTimeMillis() + timeInSeconds * 1000;
+        alarmManager.set(AlarmManager.RTC_WAKEUP, shutdownTime, pendingIntent);
+    }
+
 
 
     @Override
