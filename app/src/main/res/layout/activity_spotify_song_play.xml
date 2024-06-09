@@ -140,7 +140,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/songName"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_back_black"
+                app:srcCompat="@drawable/baseline_30fps_24"
                 app:tint="#AAA" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -339,7 +339,6 @@
             android:background="@drawable/ripple_oval"
             android:padding="13dp"
             android:src="@drawable/nextred"
-            app:layout_constraintBottom_toBottomOf="@id/play_pause_button"
             app:layout_constraintStart_toEndOf="@id/play_pause_button"
             app:layout_constraintTop_toTopOf="@id/play_pause_button"
             app:tint="@color/FlatWhite" />
@@ -353,7 +352,7 @@
             android:background="@drawable/ripple_oval"
             android:padding="13dp"
             android:src="@drawable/img"
-            app:layout_constraintBottom_toBottomOf="@id/next_button"
+
             app:layout_constraintStart_toEndOf="@id/next_button"
             app:layout_constraintTop_toTopOf="@id/next_button"
             app:tint="@drawable/selector"

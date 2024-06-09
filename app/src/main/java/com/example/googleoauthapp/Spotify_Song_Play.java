@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.example.googleoauthapp.Connectors.SongService;
 import com.example.googleoauthapp.databinding.ActivitySpotifySongPlayBinding;
@@ -53,6 +54,11 @@ public class Spotify_Song_Play extends AppCompatActivity {
 
     private PlayerApi playerApi;
     int flag = 0;
+
+    int timer = 0; /// TIMER
+
+    int flagLikedSong = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -198,7 +204,48 @@ public class Spotify_Song_Play extends AppCompatActivity {
 
                         int position = getIntent().getIntExtra("Order" , 0);
 
-                        service.addSongToLibrary(songs.get(position));
+
+
+                        if (songs.size() > 0 && flagLikedSong == 1 ) {
+                            service.removeSongToLibrary(songs.get(position));
+                            flagLikedSong = 0;
+                        }
+
+                        else {
+                            service.addSongToLibrary(songs.get(position));
+                            flagLikedSong = 1;
+                        }
+
+
+                        //service.addSongToLibrary(songs.get(position));
+
+                    }
+                });
+
+
+                binding.buttonRight.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        timer += 10;
+
+                        Toast.makeText(Spotify_Song_Play.this, "Nhạc sẽ dừng sau " + timer , Toast.LENGTH_SHORT).show();
+
+                        while (timer > 0){
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+
+                            timer -= 1;
+                        }
+
+                        if (timer == 0 ){
+                            mSpotifyAppRemote.getPlayerApi().pause();
+                            Toast.makeText(Spotify_Song_Play.this, "Nhạc đã dừng" , Toast.LENGTH_SHORT).show();
+                        }
+
+
 
                     }
                 });

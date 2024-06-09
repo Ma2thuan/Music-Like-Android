@@ -286,6 +286,28 @@ public class SongService {
         };
     }
 
+    public void removeSongToLibrary(Song song) {
+        JSONObject payload = preparePutPayload(song);
+        JsonObjectRequest jsonObjectRequest = deleteSongLibraryRequest(payload);
+        queue.add(jsonObjectRequest);
+    }
+
+    private JsonObjectRequest deleteSongLibraryRequest(JSONObject payload) {
+        return new JsonObjectRequest(Request.Method.DELETE, "https://api.spotify.com/v1/collection/tracks", payload, response -> {
+        }, error -> {
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String token = sharedPreferences.getString("token", "");
+                String auth = "Bearer " + token;
+                headers.put("Authorization", auth);
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+    }
+
 
     public ArrayList<Song> findTrack(final VolleyCallBack callBack) {
 
