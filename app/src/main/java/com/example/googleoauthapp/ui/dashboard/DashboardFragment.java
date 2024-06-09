@@ -63,7 +63,7 @@ public class DashboardFragment extends Fragment {
         musicAdapter = new MusicAdapter(songList);
         recyclerView.setAdapter(musicAdapter);
 
-        Button playlistButton = view.findViewById(R.id.button_playlist);
+        TextView playlistButton = view.findViewById(R.id.button_playlist);
         playlistButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,8 +74,6 @@ public class DashboardFragment extends Fragment {
         });
 
     }
-
-
 
     public ArrayList<HashMap<String, String>> getMusicFiles() {
         ArrayList<HashMap<String, String>> fileList = new ArrayList<>();

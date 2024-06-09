@@ -1,18 +1,30 @@
 package com.example.googleoauthapp.ui.notifications;
 
+import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.media3.common.util.UnstableApi;
 
+import com.example.googleoauthapp.ActDrive;
 import com.example.googleoauthapp.GlobalVars;
 import com.example.googleoauthapp.MainActivity2;
+import com.example.googleoauthapp.MusicShutdownReceiver;
 import com.example.googleoauthapp.R;
 import com.example.googleoauthapp.databinding.FragmentNotificationsBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -27,7 +39,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,6 +73,48 @@ public class NotificationsFragment extends Fragment {
         SignInButton signInButton = binding.signInButton; // Giả sử bạn đã thêm SignInButton vào layout của NotificationsFragment
         signInButton.setOnClickListener(v -> signIn());
 
+        Button updriveButton = root.findViewById(R.id.updrive);
+        updriveButton.setOnClickListener(new View.OnClickListener() {
+            @UnstableApi @Override
+            public void onClick(View v) {
+                // Chuyển đến Activity mới để hiển thị danh sách bài hát
+                Intent intent = new Intent(getActivity(), ActDrive.class);
+                /*intent.putExtra("GoogleAccount", account);*/
+                startActivity(intent);
+            }
+        });
+
+        Button sleepTimeButton = root.findViewById(R.id.sleep_time);
+        sleepTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Sleep Timer");
+
+                final EditText input = new EditText(getActivity());
+                input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                builder.setView(input);
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        float timeInMinutes = Float.parseFloat(input.getText().toString());
+                        scheduleMusicShutdown((int) (timeInMinutes * 60));
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+            }
+        });
+
+
+
         return root;
     }
 
@@ -74,6 +132,8 @@ public class NotificationsFragment extends Fragment {
         }
     }
 
+
+
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
@@ -82,16 +142,21 @@ public class NotificationsFragment extends Fragment {
             firebaseAuth.signInWithCredential(credential)
                     .addOnCompleteListener(getActivity(), task -> {
                         if (task.isSuccessful()) {
+
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             Intent intent = new Intent(getActivity(), MainActivity2.class);
+                           /* intent.putExtra("GoogleAccount", account);*/
                             startActivity(intent);
 
                             FirebaseFirestore db = FirebaseFirestore.getInstance();
                             String uid = user.getUid();
                             String email = user.getEmail();
+                            /*String idToken = account.getIdToken();*/
 
                             GlobalVars.setUserId(user.getUid());
                             GlobalVars.setUserEmail(user.getEmail());
+                          /*  GlobalVars.setToken(idToken);*/
+
 
                             // Kiểm tra trùng lặp UID
                             db.collection("users").whereEqualTo("UID", uid).get()
@@ -117,6 +182,8 @@ public class NotificationsFragment extends Fragment {
                                                     });
                                         }
                                     });
+
+                            createStorageDirectory(email);
                         } else {
                             Log.w("error", "signInWithCredential:failure", task.getException());
                             Toast.makeText(getActivity(), "Authentication failed.", Toast.LENGTH_SHORT).show();
@@ -126,6 +193,45 @@ public class NotificationsFragment extends Fragment {
             Log.w("error", "signInResult:failed code=" + e.getStatusCode());
         }
     }
+
+
+    private void createStorageDirectory(String email) {
+        if (email == null || email.isEmpty()) {
+            Log.w("Storage", "Email is null or empty, cannot create directory");
+            return;
+        }
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        StorageReference userFolder = storageRef.child("users/" + email.replace('.', '_'));
+
+        // Tạo một file tạm thời để upload và tạo thư mục
+        File tempFile;
+        try {
+            tempFile = File.createTempFile("temp", "file");
+            userFolder.child("temp_file").putFile(Uri.fromFile(tempFile))
+                    .addOnSuccessListener(taskSnapshot -> {
+                        // Xóa file tạm sau khi tạo thư mục thành công
+                        tempFile.delete();
+                        Log.d("Storage", "Directory created successfully");
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.w("Storage", "Failed to create directory", e);
+                    });
+        } catch (IOException e) {
+            Log.w("Storage", "Failed to create temp file", e);
+        }
+    }
+
+    public void scheduleMusicShutdown(int timeInSeconds) {
+        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getContext(), MusicShutdownReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, PendingIntent.FLAG_MUTABLE);
+
+        long shutdownTime = System.currentTimeMillis() + timeInSeconds * 1000;
+        alarmManager.set(AlarmManager.RTC_WAKEUP, shutdownTime, pendingIntent);
+    }
+
 
 
     @Override
