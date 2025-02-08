@@ -24,7 +24,7 @@ import com.spotify.sdk.android.auth.AuthorizationResponse;
 public class SplashActivity extends AppCompatActivity {
 
     ActivitySplashBinding binding;
-    private static final String CLIENT_ID ="4e5e333774674e6d9b9a34f9f68fe051";
+    private static final String CLIENT_ID ="**************************";
     private static final String REDIRECT_URI = "http://localhost:8888/callback";
     private static final int REQUEST_CODE = 1337;
     private static final String SCOPES = "user-read-recently-played,user-library-modify,user-read-email,user-read-private,streaming";
